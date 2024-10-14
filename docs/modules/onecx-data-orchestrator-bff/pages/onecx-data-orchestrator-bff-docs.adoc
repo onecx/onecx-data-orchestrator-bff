@@ -1,0 +1,161 @@
+
+include::onecx-data-orchestrator-bff-attributes.adoc[opts=optional]
+
+=== Default properties
+
+.{properties-file}
+[%collapsible%open]
+====
+[source,properties,subs=attributes+]
+----
+quarkus.http.auth.permission.health.paths=/q/*
+quarkus.http.auth.permission.health.policy=permit
+quarkus.http.auth.permission.default.paths=/*
+quarkus.http.auth.permission.default.policy=authenticated
+onecx.permissions.application-id=${quarkus.application.name}
+org.eclipse.microprofile.rest.client.propagateHeaders=apm-principal-token
+quarkus.http.filter.images.order=10
+quarkus.http.filter.images.header."Cache-Control"=max-age=432000
+quarkus.http.filter.images.matches=/images/*
+quarkus.http.filter.images.methods=GET
+quarkus.http.filter.imageInfo.order=11
+quarkus.http.filter.imageInfo.header."Cache-Control"=none
+quarkus.http.filter.imageInfo.matches=/info*
+%prod.quarkus.oidc-client.client-id=${quarkus.application.name}
+----
+====
+
+=== Extensions
+
+include::onecx-data-orchestrator-bff-extensions.adoc[opts=optional]
+
+=== Container
+
+{docker-registry}[Docker registry]
+
+
+=== Helm
+
+{helm-registry}[Helm registry]
+
+Default values
+
+.{helm-file}
+[source,yaml]
+----
+app:
+  name: bff
+  image:
+    repository: "onecx/onecx-data-orchestrator-bff"
+  operator:
+    # Permission
+    permission:
+      enabled: true
+      spec:
+        permissions:
+          data:
+            read: permission on all GET requests and POST search
+            write: permission on PUT, POST, PATCH requests, where objects are saved or updated
+            delete: permission on all DELETE requests
+    keycloak:
+      client:
+        enabled: true
+        spec:
+          kcConfig:
+            defaultClientScopes: [ ocx-pm:read ]
+----
+
+ecx_welcome_internal_yaml.enable-security-generation=false
+%prod.quarkus.rest-client.onecx_welcome_internal.providers=io.quarkus.oidc.client.reactive.filter.OidcClientRequestReactiveFilter
+%prod.quarkus.oidc-client.client-id=${quarkus.application.name}
+----
+====
+
+=== Extensions
+
+include::onecx-welcome-bff-extensions.adoc[opts=optional]
+
+=== Container
+
+{docker-registry}[Docker registry]
+
+
+=== Helm
+
+{helm-registry}[Helm registry]
+
+Default values
+
+.{helm-file}
+[source,yaml]
+----
+app:
+  name: bff
+  image:
+    repository: "onecx/onecx-welcome-bff"
+  operator:
+    # Permission
+    permission:
+      enabled: true
+      spec:
+        permissions:
+          image:
+            read: permission on all GET requests and POST search
+            write: permission on PUT, POST, PATCH requests, where objects are saved or updated
+            delete: permission on all DELETE requests
+    keycloak:
+      client:
+        enabled: true
+        spec:
+          kcConfig:
+            defaultClientScopes: [ ocx-wc:all, ocx-pm:read, ocx-an:read ]
+----
+
+.rest-client.onecx_welcome_internal.providers=io.quarkus.oidc.client.reactive.filter.OidcClientRequestReactiveFilter
+%prod.quarkus.rest-client.onecx_announcement_v1.providers=io.quarkus.oidc.client.reactive.filter.OidcClientRequestReactiveFilter
+%prod.quarkus.oidc-client.client-id=${quarkus.application.name}
+----
+====
+
+=== Extensions
+
+include::onecx-welcome-bff-extensions.adoc[opts=optional]
+
+=== Container
+
+{docker-registry}[Docker registry]
+
+
+=== Helm
+
+{helm-registry}[Helm registry]
+
+Default values
+
+.{helm-file}
+[source,yaml]
+----
+app:
+  name: bff
+  image:
+    repository: "onecx/onecx-welcome-bff"
+  operator:
+    # Permission
+    permission:
+      enabled: true
+      spec:
+        permissions:
+          image:
+            read: permission on all GET requests and POST search
+            write: permission on PUT, POST, PATCH requests, where objects are saved or updated
+            delete: permission on all DELETE requests
+          announcement:
+            read: permission on all GET requests and POST search
+    keycloak:
+      client:
+        enabled: true
+        spec:
+          kcConfig:
+            defaultClientScopes: [ ocx-wc:all, ocx-pm:read, ocx-an:read ]
+----
+

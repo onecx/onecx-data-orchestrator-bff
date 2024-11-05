@@ -1,0 +1,514 @@
+---
+openapi: 3.0.3
+info:
+  title: onecx-data-orchestrator-bff
+  description: OneCX Data Orchestrator BFF
+  version: 1.0.0
+  contact:
+    email: "tkit_dev@1000kit.org"
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: "http://onecx-data-orchestrator-bff:8080"
+tags:
+  - name: data
+paths:
+  /crd:
+    get:
+      x-onecx:
+        permissions:
+          crd:
+            - read
+      tags:
+        - data
+      description: get custom resources
+      operationId: getAllCustomResources
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrdResponse'
+        "404":
+          description: NOT FOUND
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+    post:
+      x-onecx:
+        permissions:
+          crd:
+            - read
+      tags:
+        - data
+      description: edit data
+      operationId: editData
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditResourceRequest'
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: NOT FOUND
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+components:
+  schemas:
+    EditResourceRequest:
+      type: object
+      properties:
+        CrdData:
+          $ref: '#/components/schemas/CustomResourceData'
+        CrdDatabase:
+          $ref: '#/components/schemas/CustomResourceDatabase'
+        CrdKeycloakClient:
+          $ref: '#/components/schemas/CustomResourceKeycloakClient'
+        CrdMicrofrontend:
+          $ref: '#/components/schemas/CustomResourceMicrofrontend'
+        CrdMicroservice:
+          $ref: '#/components/schemas/CustomResourceMicroservice'
+        CrdPermission:
+          $ref: '#/components/schemas/CustomResourcePermission'
+        CrdProduct:
+          $ref: '#/components/schemas/CustomResourceProduct'
+        CrdSlot:
+          $ref: '#/components/schemas/CustomResourceSlot'
+    CrdResponse:
+      type: object
+      properties:
+        CrdDatas:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomResourceData'
+        CrdDatabases:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomResourceDatabase'
+        CrdKeycloakClients:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomResourceKeycloakClient'
+        CrdMicrofrontends:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomResourceMicrofrontend'
+        CrdMicroservices:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomResourceMicroservice'
+        CrdPermissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomResourcePermission'
+        CrdProducts:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomResourceProduct'
+        CrdSlots:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomResourceSlot'
+    CustomResourceData:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        spec:
+          properties:
+            appId:
+              type: string
+            data:
+              type: string
+            description:
+              type: string
+            key:
+              type: string
+            orgId:
+              type: string
+            productName:
+              type: string
+          type: object
+        status:
+          allOf:
+            - $ref: '#/components/schemas/Status'
+        metadata:
+          allOf:
+            - $ref: '#/components/schemas/Metadata'
+
+    CustomResourceDatabase:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        spec:
+          properties:
+            extensions:
+              items:
+                type: string
+              type: array
+            host:
+              type: string
+            name:
+              type: string
+            password-key:
+              type: string
+            password-secrets:
+              type: string
+            schema:
+              type: string
+            user:
+              type: string
+            user-search-path:
+              type: string
+          type: object
+        status:
+          allOf:
+            - $ref: '#/components/schemas/Status'
+        metadata:
+          allOf:
+            - $ref: '#/components/schemas/Metadata'
+    CustomResourceKeycloakClient:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        spec:
+          properties:
+            kcConfig:
+              properties:
+                attributes:
+                  additionalProperties:
+                    type: string
+                  type: object
+                bearerOnly:
+                  type: boolean
+                clientAuthenticatorType:
+                  type: string
+                clientId:
+                  type: string
+                defaultClientScopes:
+                  items:
+                    type: string
+                  type: array
+                description:
+                  type: string
+                directAccessGrantsEnabled:
+                  type: boolean
+                enabled:
+                  type: boolean
+                implicitFlowEnabled:
+                  type: boolean
+                optionalClientScopes:
+                  items:
+                    type: string
+                  type: array
+                password:
+                  type: string
+                protocol:
+                  type: string
+                publicClient:
+                  type: boolean
+                redirectUris:
+                  items:
+                    type: string
+                  type: array
+                serviceAccountsEnabled:
+                  type: boolean
+                standardFlowEnabled:
+                  type: boolean
+                webOrigins:
+                  items:
+                    type: string
+                  type: array
+              type: object
+            passwordKey:
+              type: string
+            passwordSecrets:
+              type: string
+            realm:
+              type: string
+            type:
+              type: string
+          type: object
+        status:
+          allOf:
+            - $ref: '#/components/schemas/Status'
+        metadata:
+          allOf:
+            - $ref: '#/components/schemas/Metadata'
+
+    CustomResourceMicrofrontend:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        spec:
+          properties:
+            appId:
+              type: string
+            appName:
+              type: string
+            appVersion:
+              type: string
+            classifications:
+              items:
+                type: string
+              type: array
+            contact:
+              type: string
+            deprecated:
+              type: boolean
+            description:
+              type: string
+            endpoints:
+              items:
+                properties:
+                  name:
+                    type: string
+                  path:
+                    type: string
+                type: object
+              type: array
+            exposedModule:
+              type: string
+            iconName:
+              type: string
+            note:
+              type: string
+            productName:
+              type: string
+            remoteBaseUrl:
+              type: string
+            remoteEntry:
+              type: string
+            remoteName:
+              type: string
+            tagName:
+              type: string
+            technology:
+              type: string
+            type:
+              enum:
+                - COMPONENT
+                - MODULE
+              type: string
+        status:
+          allOf:
+            - $ref: '#/components/schemas/Status'
+        metadata:
+          allOf:
+            - $ref: '#/components/schemas/Metadata'
+
+    CustomResourceMicroservice:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        spec:
+          properties:
+            appId:
+              type: string
+            description:
+              type: string
+            name:
+              type: string
+            productName:
+              type: string
+            type:
+              type: string
+            version:
+              type: string
+          type: object
+        status:
+          allOf:
+            - $ref: '#/components/schemas/Status'
+        metadata:
+          allOf:
+            - $ref: '#/components/schemas/Metadata'
+    CustomResourcePermission:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        spec:
+          properties:
+            appId:
+              type: string
+            description:
+              type: string
+            name:
+              type: string
+            permissions:
+              additionalProperties:
+                additionalProperties:
+                  type: string
+                type: object
+              type: object
+            productName:
+              type: string
+          type: object
+        status:
+          allOf:
+            - $ref: '#/components/schemas/Status'
+        metadata:
+          allOf:
+            - $ref: '#/components/schemas/Metadata'
+    CustomResourceProduct:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        spec:
+          properties:
+            basePath:
+              type: string
+            classifications:
+              items:
+                type: string
+              type: array
+            description:
+              type: string
+            displayName:
+              type: string
+            iconName:
+              type: string
+            imageUrl:
+              type: string
+            name:
+              type: string
+            provider:
+              type: string
+            version:
+              type: string
+          type: object
+        status:
+          allOf:
+            - $ref: '#/components/schemas/Status'
+        metadata:
+          allOf:
+            - $ref: '#/components/schemas/Metadata'
+
+    CustomResourceSlot:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        spec:
+          properties:
+            appId:
+              type: string
+            deprecated:
+              type: boolean
+            description:
+              type: string
+            name:
+              type: string
+            productName:
+              type: string
+          type: object
+        status:
+          allOf:
+            - $ref: '#/components/schemas/Status'
+        metadata:
+          allOf:
+            - $ref: '#/components/schemas/Metadata'
+    Metadata:
+      type: object
+      properties:
+        name:
+          type: string
+        namespace:
+          type: string
+        resourceVersion:
+          type: string
+        creationTimestamp:
+          type: string
+    Status:
+      type: object
+      properties:
+          message:
+            type: string
+          responseCode:
+            type: integer
+          status:
+            enum:
+              - CREATED
+              - ERROR
+              - UNDEFINED
+              - UPDATED
+            type: string
+    OffsetDateTime:
+      format: date-time
+      type: string
+      example: 2022-03-10T12:15:50-04:00
+    ContextKind:
+      type: string
+      enum: [ Data, Database, KeycloakClient, Microfrontend, Microservice, Permission, Product, Slot ]
+    ProblemDetailResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        detail:
+          type: string
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemDetailParam'
+        invalidParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemDetailInvalidParam'
+    ProblemDetailParam:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    ProblemDetailInvalidParam:
+      type: object
+      properties:
+        name:
+          type: string
+        message:
+          type: string
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+
+
+

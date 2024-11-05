@@ -1,0 +1,87 @@
+apiVersion: onecx.tkit.org/v1
+kind: KeycloakClient
+metadata:
+ annotations:
+  kubectl.kubernetes.io/last-applied-configuration: >
+   {"apiVersion":"onecx.tkit.org/v1","kind":"KeycloakClient","metadata":{"annotations":{},"labels":{"app":"onecx-help-bff","app.kubernetes.io/instance":"onecx-help-dev","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"onecx-help-bff","helm.sh/chart":"app-0.36.0","version":"1.1.0"},"name":"onecx-help-bff","namespace":"dev"},"spec":{"kcConfig":{"attributes":null,"bearerOnly":null,"clientAuthenticatorType":null,"clientId":"onecx-help-bff","defaultClientScopes":["ocx-hp:all","ocx-ps:read","ocx-pm:read"],"description":null,"directAccessGrantsEnabled":null,"enabled":null,"implicitFlowEnabled":null,"optionalClientScopes":null,"protocol":null,"publicClient":null,"redirectUris":null,"serviceAccountsEnabled":null,"standardFlowEnabled":null,"webOrigins":null},"passwordKey":"secret","passwordSecrets":"onecx-help-bff-kc-client-config","realm":null,"type":"machine"}}
+ creationTimestamp: '2024-03-26T09:24:39Z'
+ finalizers:
+  - keycloakclients.onecx.tkit.org/finalizer
+ generation: 3
+ labels:
+  app: onecx-help-bff
+  app.kubernetes.io/instance: onecx-help-dev
+  app.kubernetes.io/managed-by: Helm
+  app.kubernetes.io/name: onecx-help-bff
+  helm.sh/chart: app-0.36.0
+  version: 1.1.0
+ managedFields:
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     'f:metadata':
+      'f:finalizers':
+       .: {}
+       'v:"keycloakclients.onecx.tkit.org/finalizer"': {}
+    manager: fabric8-kubernetes-client
+    operation: Update
+    time: '2024-03-26T09:25:43Z'
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     'f:status':
+      .: {}
+      'f:clientId': {}
+      'f:observedGeneration': {}
+      'f:response-code': {}
+      'f:status': {}
+    manager: fabric8-kubernetes-client
+    operation: Update
+    subresource: status
+    time: '2024-09-11T09:43:57Z'
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     'f:metadata':
+      'f:annotations':
+       .: {}
+       'f:kubectl.kubernetes.io/last-applied-configuration': {}
+      'f:labels':
+       .: {}
+       'f:app': {}
+       'f:app.kubernetes.io/instance': {}
+       'f:app.kubernetes.io/managed-by': {}
+       'f:app.kubernetes.io/name': {}
+       'f:helm.sh/chart': {}
+       'f:version': {}
+     'f:spec':
+      .: {}
+      'f:kcConfig':
+       .: {}
+       'f:clientId': {}
+       'f:defaultClientScopes': {}
+      'f:passwordKey': {}
+      'f:passwordSecrets': {}
+      'f:type': {}
+    manager: argocd-controller
+    operation: Update
+    time: '2024-10-30T09:03:11Z'
+ name: onecx-help-bff
+ namespace: default
+ resourceVersion: '216103605'
+ uid: e6268691-044b-478b-97c3-5af8d637158e
+spec:
+ kcConfig:
+  clientId: onecx-help-bff
+  defaultClientScopes:
+   - 'ocx-hp:all'
+   - 'ocx-ps:read'
+   - 'ocx-pm:read'
+ passwordKey: secret
+ passwordSecrets: onecx-help-bff-kc-client-config
+ type: machine
+status:
+ clientId: onecx-help-bff
+ observedGeneration: 3
+ response-code: 200
+ status: UPDATED

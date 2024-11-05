@@ -1,0 +1,8 @@
+include::onecx-data-orchestrator-bff-attributes.adoc[opts=optional]
+
+== onecx-data-orchestrator-bff
+
+include::docs.adoc[opts=optional]
+
+
+include::onecx-data-orchestrator-bff-docs.adoc[opts=optional]

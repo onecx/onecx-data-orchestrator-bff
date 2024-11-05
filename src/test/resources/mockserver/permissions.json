@@ -13,7 +13,7 @@
         "json": {
           "appId": "onecx-data-orchestrator-bff",
           "permissions": {
-            "data": ["read", "write", "delete"],
+            "crd": ["read", "write"],
             "permissions": ["admin-write","admin-read"]
           }
         },
@@ -35,7 +35,7 @@
         "json": {
           "appId": "onecx-data-orchestrator-bff",
           "permissions": {
-            "data": ["read"],
+            "crd": ["read"],
             "permissions": ["admin-write","admin-read"]
           }
         },

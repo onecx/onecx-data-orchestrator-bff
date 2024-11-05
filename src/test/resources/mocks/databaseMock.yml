@@ -1,0 +1,73 @@
+apiVersion: onecx.tkit.org/v1
+kind: Database
+metadata:
+ annotations:
+  kubectl.kubernetes.io/last-applied-configuration: >
+   {"apiVersion":"onecx.tkit.org/v1","kind":"Database","metadata":{"annotations":{},"labels":{"app":"onecx-help-svc","app.kubernetes.io/instance":"onecx-help-dev","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"onecx-help-svc","helm.sh/chart":"app-0.36.0","version":"1.1.0"},"name":"onecx-help-svc-db","namespace":"dev"},"spec":{"host":"postgresql","name":"onecx_help_svc","password-key":"password","password-secrets":"onecx-help-svc-db-config","schema":"onecx_help_svc","user":"onecx_help_svc"}}
+ creationTimestamp: '2024-03-26T09:24:39Z'
+ generation: 1
+ labels:
+  app: onecx-help-svc
+  app.kubernetes.io/instance: onecx-help-dev
+  app.kubernetes.io/managed-by: Helm
+  app.kubernetes.io/name: onecx-help-svc
+  helm.sh/chart: app-0.36.0
+  version: 1.1.0
+ managedFields:
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     'f:metadata':
+      'f:annotations':
+       .: {}
+       'f:kubectl.kubernetes.io/last-applied-configuration': {}
+      'f:labels':
+       .: {}
+       'f:app': {}
+       'f:app.kubernetes.io/instance': {}
+       'f:app.kubernetes.io/managed-by': {}
+       'f:app.kubernetes.io/name': {}
+       'f:helm.sh/chart': {}
+       'f:version': {}
+     'f:spec':
+      .: {}
+      'f:host': {}
+      'f:name': {}
+      'f:password-key': {}
+      'f:password-secrets': {}
+      'f:schema': {}
+      'f:user': {}
+    manager: argocd-controller
+    operation: Update
+    time: '2024-10-30T09:03:12Z'
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     'f:status':
+      .: {}
+      'f:observedGeneration': {}
+      'f:password-secrets': {}
+      'f:status': {}
+      'f:url': {}
+      'f:user': {}
+    manager: fabric8-kubernetes-client
+    operation: Update
+    subresource: status
+    time: '2024-11-04T14:08:14Z'
+ name: onecx-help-svc-db
+ namespace: default
+ resourceVersion: '220476537'
+ uid: 5799720b-9786-42f4-a57a-8312023ee225
+spec:
+ host: postgresql
+ name: onecx_help_svc
+ password-key: xxx
+ password-secrets: onecx-help-svc-db-config
+ schema: onecx_help_svc
+ user: xxx
+status:
+ observedGeneration: 1
+ password-secrets: onecx-help-svc-db-config
+ status: CREATED
+ url: xxx
+ user: xxx

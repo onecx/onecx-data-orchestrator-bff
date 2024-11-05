@@ -1,0 +1,73 @@
+apiVersion: onecx.tkit.org/v1
+kind: Product
+metadata:
+ annotations:
+  kubectl.kubernetes.io/last-applied-configuration: >
+   {"apiVersion":"onecx.tkit.org/v1","kind":"Product","metadata":{"annotations":{},"labels":{"app":"onecx-help","app.kubernetes.io/instance":"onecx-help-dev","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"onecx-help","helm.sh/chart":"product-0.2.0","version":"1.1.0-rc.16"},"name":"onecx-help","namespace":"dev"},"spec":{"basePath":"/help","description":"OneCX
+   Help","displayName":"OneCX
+   Help","iconName":"question-circle","name":"onecx-help","version":"1.1.0-rc.16"}}
+ creationTimestamp: '2024-03-26T09:24:38Z'
+ generation: 14
+ labels:
+  app: onecx-help
+  app.kubernetes.io/instance: onecx-help-dev
+  app.kubernetes.io/managed-by: Helm
+  app.kubernetes.io/name: onecx-help
+  helm.sh/chart: product-0.2.0
+  version: 1.1.0-rc.16
+ managedFields:
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     'f:metadata':
+      'f:annotations':
+       .: {}
+       'f:kubectl.kubernetes.io/last-applied-configuration': {}
+      'f:labels':
+       .: {}
+       'f:app': {}
+       'f:app.kubernetes.io/instance': {}
+       'f:app.kubernetes.io/managed-by': {}
+       'f:app.kubernetes.io/name': {}
+       'f:helm.sh/chart': {}
+       'f:version': {}
+     'f:spec':
+      .: {}
+      'f:basePath': {}
+      'f:description': {}
+      'f:displayName': {}
+      'f:iconName': {}
+      'f:name': {}
+      'f:version': {}
+    manager: argocd-controller
+    operation: Update
+    time: '2024-10-30T09:03:11Z'
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     'f:status':
+      .: {}
+      'f:observedGeneration': {}
+      'f:product-name': {}
+      'f:response-code': {}
+      'f:status': {}
+    manager: fabric8-kubernetes-client
+    operation: Update
+    subresource: status
+    time: '2024-10-30T09:03:11Z'
+ name: onecx-help
+ namespace: default
+ resourceVersion: '216103606'
+ uid: fd537ad9-000b-4b4d-a65a-991bee183efe
+spec:
+ basePath: /help
+ description: OneCX Help
+ displayName: OneCX Help
+ iconName: question-circle
+ name: onecx-help
+ version: 1.1.0-rc.16
+status:
+ observedGeneration: 14
+ product-name: onecx-help
+ response-code: 200
+ status: UPDATED

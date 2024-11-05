@@ -14,13 +14,7 @@ quarkus.http.auth.permission.default.paths=/*
 quarkus.http.auth.permission.default.policy=authenticated
 onecx.permissions.application-id=${quarkus.application.name}
 org.eclipse.microprofile.rest.client.propagateHeaders=apm-principal-token
-quarkus.http.filter.images.order=10
-quarkus.http.filter.images.header."Cache-Control"=max-age=432000
-quarkus.http.filter.images.matches=/images/*
-quarkus.http.filter.images.methods=GET
-quarkus.http.filter.imageInfo.order=11
-quarkus.http.filter.imageInfo.header."Cache-Control"=none
-quarkus.http.filter.imageInfo.matches=/info*
+quarkus.kubernetes-client.trust-certs=true
 %prod.quarkus.oidc-client.client-id=${quarkus.application.name}
 ----
 ====
@@ -44,19 +38,34 @@ Default values
 [source,yaml]
 ----
 app:
+  serviceAccount:
+    enabled: true
   name: bff
   image:
     repository: "onecx/onecx-data-orchestrator-bff"
+  envCustom:
+    - name: QUARKUS_KUBERNETES_CLIENT_NAMESPACE
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.namespace
   operator:
     # Permission
     permission:
       enabled: true
       spec:
         permissions:
-          data:
+          crd:
             read: permission on all GET requests and POST search
             write: permission on PUT, POST, PATCH requests, where objects are saved or updated
-            delete: permission on all DELETE requests
+    keycloak:
+      client:
+        enabled: true
+        spec:
+          kcConfig:
+            defaultClientScopes: [ ocx-pm:read ]
+----
+
+sion on all DELETE requests
     keycloak:
       client:
         enabled: true

@@ -1,0 +1,80 @@
+apiVersion: onecx.tkit.org/v1
+kind: Data
+metadata:
+ annotations:
+  kubectl.kubernetes.io/last-applied-configuration: >
+   {"apiVersion":"onecx.tkit.org/v1","kind":"Data","metadata":{"annotations":{},"name":"dtag-tenants","namespace":"default"},"spec":{"appId":"onecx-tenant","data":"{\n 
+   \"id\": \"tenant-import\",\n  \"tenants\": {\n      \"10000\":
+   {\n          \"orgId\": \"10000\",\n          \"description\": \"GFNW
+   tenant\"\n      }\n 
+   }\n}\n","key":"tenant","orgId":"dtag","productName":"onecx-tenant"}}
+ creationTimestamp: '2024-10-29T11:39:57Z'
+ generation: 1
+ labels:
+  k8slens-edit-resource-version: v1
+ managedFields:
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     f:metadata:
+      f:annotations:
+       .: {}
+       f:kubectl.kubernetes.io/last-applied-configuration: {}
+     f:spec:
+      .: {}
+      f:appId: {}
+      f:data: {}
+      f:key: {}
+      f:orgId: {}
+      f:productName: {}
+    manager: kubectl-client-side-apply
+    operation: Update
+    time: '2024-10-29T11:39:57Z'
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     f:status:
+      .: {}
+      f:message: {}
+      f:responseCode: {}
+      f:status: {}
+    manager: fabric8-kubernetes-client
+    operation: Update
+    subresource: status
+    time: '2024-10-29T11:43:56Z'
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     f:metadata:
+      f:labels:
+       .: {}
+       f:k8slens-edit-resource-version: {}
+    manager: node-fetch
+    operation: Update
+    time: '2024-10-29T13:26:45Z'
+ name: dtag-tenants
+ namespace: default
+ resourceVersion: '9593'
+ uid: e582da9e-0121-4e1a-bebe-fda8f068a35a
+ selfLink: /apis/onecx.tkit.org/v1/namespaces/default/datas/dtag-tenants
+status:
+ message: >-
+  jakarta.ws.rs.ProcessingException: java.net.UnknownHostException:
+  onecx-tenant-svc: Name or service not known
+ responseCode: -1
+ status: ERROR
+spec:
+ appId: onecx-tenant
+ data: |
+  {
+    "id": "tenant-import",
+    "tenants": {
+        "10000": {
+            "orgId": "10000",
+            "description": "GFNW tenant"
+        }
+    }
+  }
+ key: tenant
+ orgId: dtag
+ productName: onecx-tenant

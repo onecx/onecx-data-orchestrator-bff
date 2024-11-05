@@ -141,5 +141,11 @@ h| Version
 | 3.15.1
 
 
+| quarkus-kubernetes-client
+
+| 
+| 
+| 3.15.1
+
 
 |===

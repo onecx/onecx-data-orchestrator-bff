@@ -33,7 +33,7 @@ class CrdRestControllerDataTest extends AbstractTest {
     ObjectMapper objectMapper;
 
     @BeforeAll
-    public void before() {
+    void before() {
         // Creating a custom resource from yaml
         CustomResourceDefinition aCustomResourceDefinition = client.apiextensions().v1().customResourceDefinitions()
                 .load(CrdRestControllerDataTest.class.getResourceAsStream("/mocks/dataDefinition.yml")).item();
@@ -42,7 +42,7 @@ class CrdRestControllerDataTest extends AbstractTest {
     }
 
     @Test
-    public void testInteractionWithAPIServer() {
+    void testInteractionWithAPIServer() {
         CrdSearchCriteriaDTO criteriaDTO = new CrdSearchCriteriaDTO();
         criteriaDTO.setName("dtag-tenants");
         criteriaDTO.setType(List.of(ContextKindDTO.DATA));
@@ -62,7 +62,7 @@ class CrdRestControllerDataTest extends AbstractTest {
     }
 
     @Test
-    public void test_searchJustByType() {
+    void test_searchJustByType() {
         CrdSearchCriteriaDTO criteriaDTO = new CrdSearchCriteriaDTO();
         criteriaDTO.setType(List.of(ContextKindDTO.DATA));
         var response = given()

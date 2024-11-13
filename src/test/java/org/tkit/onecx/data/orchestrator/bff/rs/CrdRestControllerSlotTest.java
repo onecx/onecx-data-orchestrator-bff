@@ -4,7 +4,7 @@ import static io.restassured.RestAssured.given;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.jboss.resteasy.reactive.RestResponse.Status.OK;
 
-import java.io.IOException;
+import java.util.List;
 
 import jakarta.inject.Inject;
 
@@ -14,14 +14,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.tkit.onecx.data.orchestrator.bff.rs.controllers.CrdRestController;
 
-import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.model.CrdResponseDTO;
-import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.model.EditResourceRequestDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.model.*;
 import io.fabric8.kubernetes.api.model.apiextensions.v1.CustomResourceDefinition;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.kubernetes.client.KubernetesTestServer;
 import io.quarkus.test.kubernetes.client.WithKubernetesTestServer;
 
 @WithKubernetesTestServer
@@ -30,13 +29,14 @@ import io.quarkus.test.kubernetes.client.WithKubernetesTestServer;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CrdRestControllerSlotTest extends AbstractTest {
 
-    @KubernetesTestServer
-    KubernetesServer mockServer;
     @Inject
     KubernetesClient client;
 
+    @Inject
+    ObjectMapper objectMapper;
+
     @BeforeAll
-    public void before() throws IOException {
+    void before() {
         // Creating a custom resource from yaml
         CustomResourceDefinition aCustomResourceDefinition = client.apiextensions().v1().customResourceDefinitions()
                 .load(CrdRestControllerSlotTest.class.getResourceAsStream("/mocks/slotDefinition.yml")).item();
@@ -45,35 +45,40 @@ class CrdRestControllerSlotTest extends AbstractTest {
     }
 
     @Test
-    public void testInteractionWithAPIServer() {
-
+    void testInteractionWithAPIServer() {
+        CrdSearchCriteriaDTO criteriaDTO = new CrdSearchCriteriaDTO();
+        criteriaDTO.setName("onecx-workspace-ui-onecx-avatar-image");
+        criteriaDTO.setType(List.of(ContextKindDTO.SLOT));
         var response = given()
                 .when()
                 .contentType(APPLICATION_JSON)
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
                 .header(APM_HEADER_PARAM, ADMIN)
-                .get()
+                .body(criteriaDTO)
+                .post()
                 .then()
                 .contentType(APPLICATION_JSON)
                 .statusCode(OK.getStatusCode())
                 .extract().as(CrdResponseDTO.class);
         Assertions.assertNotNull(response);
+        Assertions.assertNotNull(response.getCustomResources().get(0).getName());
     }
 
     @Test
-    public void testEditResource() {
-
+    void testEditResource() {
         var response = given()
                 .when()
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
                 .header(APM_HEADER_PARAM, ADMIN)
-                .get()
+                .pathParam("type", ContextKindDTO.SLOT)
+                .pathParam("name", "onecx-workspace-ui-onecx-avatar-image")
+                .get("/{type}/{name}")
                 .then()
                 .contentType(APPLICATION_JSON)
                 .statusCode(OK.getStatusCode())
-                .extract().as(CrdResponseDTO.class);
+                .extract().as(GetCRDResponseDTO.class);
         Assertions.assertNotNull(response);
-        var editedData = response.getCrdSlots().get(0);
+        CustomResourceSlotDTO editedData = objectMapper.convertValue(response.getCrd(), CustomResourceSlotDTO.class);
         editedData.getSpec().setAppId("EditedAppId");
         EditResourceRequestDTO editResourceRequestDTO = new EditResourceRequestDTO();
         editResourceRequestDTO.setCrdSlot(editedData);
@@ -82,18 +87,21 @@ class CrdRestControllerSlotTest extends AbstractTest {
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
                 .header(APM_HEADER_PARAM, ADMIN)
                 .body(editResourceRequestDTO).contentType(APPLICATION_JSON)
-                .post().then().statusCode(OK.getStatusCode());
+                .post("/edit").then().statusCode(OK.getStatusCode());
 
         response = given()
                 .when()
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
                 .header(APM_HEADER_PARAM, ADMIN)
-                .get()
+                .pathParam("type", ContextKindDTO.SLOT)
+                .pathParam("name", "onecx-workspace-ui-onecx-avatar-image")
+                .get("/{type}/{name}")
                 .then()
                 .contentType(APPLICATION_JSON)
                 .statusCode(OK.getStatusCode())
-                .extract().as(CrdResponseDTO.class);
-        Assertions.assertNotNull(response);
-
+                .extract().as(GetCRDResponseDTO.class);
+        editedData = objectMapper.convertValue(response.getCrd(), CustomResourceSlotDTO.class);
+        Assertions.assertNotNull(editedData);
+        Assertions.assertEquals("EditedAppId", editedData.getSpec().getAppId());
     }
 }

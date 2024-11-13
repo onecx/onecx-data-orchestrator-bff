@@ -20,7 +20,7 @@ class CrdRestControllerExceptionTest extends AbstractTest {
     CrdRestController restController;
 
     @Test
-    public void kubernetes_client_exception_test() {
+    void kubernetes_client_exception_test() {
         Status status = new Status();
         status.setStatus("error");
         status.setCode(400);

@@ -158,7 +158,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <additionalProperties>onecx-permissions=true</additionalProperties>
+                   <additionalProperties>onecx-permissions=true</additionalProperties>
                     <generatorName>jaxrs-spec</generatorName>
                     <apiNameSuffix>ApiService</apiNameSuffix>
                     <modelNameSuffix>DTO</modelNameSuffix>

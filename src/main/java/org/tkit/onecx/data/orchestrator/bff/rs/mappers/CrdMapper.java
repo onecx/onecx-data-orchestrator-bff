@@ -1,6 +1,7 @@
 package org.tkit.onecx.data.orchestrator.bff.rs.mappers;
 
 import java.util.List;
+import java.util.Map;
 
 import jakarta.inject.Inject;
 
@@ -18,22 +19,10 @@ public abstract class CrdMapper {
     @Inject
     ObjectMapper mapper;
 
-    public CustomResourceDataDTO mapGenericToDataDTO(GenericKubernetesResource resource) {
-        CustomResourceDataDTO dataDTO;
-        dataDTO = mapper.convertValue(resource, CustomResourceDataDTO.class);
-        return dataDTO;
-    }
-
     public GenericKubernetesResource mapDataDtoToGeneric(CustomResourceDataDTO data) {
         GenericKubernetesResource genericKubernetesResource;
         genericKubernetesResource = mapper.convertValue(data, GenericKubernetesResource.class);
         return genericKubernetesResource;
-    }
-
-    public CustomResourceDatabaseDTO mapGenericToDatabaseDTO(GenericKubernetesResource resource) {
-        CustomResourceDatabaseDTO databaseDTO;
-        databaseDTO = mapper.convertValue(resource, CustomResourceDatabaseDTO.class);
-        return databaseDTO;
     }
 
     public GenericKubernetesResource mapDatabaseDtoToGeneric(CustomResourceDatabaseDTO data) {
@@ -42,22 +31,10 @@ public abstract class CrdMapper {
         return genericKubernetesResource;
     }
 
-    public CustomResourceKeycloakClientDTO mapGenericToKeycloakClientDTO(GenericKubernetesResource resource) {
-        CustomResourceKeycloakClientDTO keycloakClientDTO;
-        keycloakClientDTO = mapper.convertValue(resource, CustomResourceKeycloakClientDTO.class);
-        return keycloakClientDTO;
-    }
-
     public GenericKubernetesResource mapKeycloakClientDtoToGeneric(CustomResourceKeycloakClientDTO data) {
         GenericKubernetesResource genericKubernetesResource;
         genericKubernetesResource = mapper.convertValue(data, GenericKubernetesResource.class);
         return genericKubernetesResource;
-    }
-
-    public CustomResourcePermissionDTO mapGenericToPermissionDTO(GenericKubernetesResource resource) {
-        CustomResourcePermissionDTO permissionDTO;
-        permissionDTO = mapper.convertValue(resource, CustomResourcePermissionDTO.class);
-        return permissionDTO;
     }
 
     public GenericKubernetesResource mapPermissionDtoToGeneric(CustomResourcePermissionDTO data) {
@@ -66,22 +43,10 @@ public abstract class CrdMapper {
         return genericKubernetesResource;
     }
 
-    public CustomResourceProductDTO mapGenericToProductDTO(GenericKubernetesResource resource) {
-        CustomResourceProductDTO productDTO;
-        productDTO = mapper.convertValue(resource, CustomResourceProductDTO.class);
-        return productDTO;
-    }
-
     public GenericKubernetesResource mapProductDtoToGeneric(CustomResourceProductDTO data) {
         GenericKubernetesResource genericKubernetesResource;
         genericKubernetesResource = mapper.convertValue(data, GenericKubernetesResource.class);
         return genericKubernetesResource;
-    }
-
-    public CustomResourceSlotDTO mapGenericToSlotDTO(GenericKubernetesResource resource) {
-        CustomResourceSlotDTO slotDTO;
-        slotDTO = mapper.convertValue(resource, CustomResourceSlotDTO.class);
-        return slotDTO;
     }
 
     public GenericKubernetesResource mapSlotDtoToGeneric(CustomResourceSlotDTO data) {
@@ -90,22 +55,10 @@ public abstract class CrdMapper {
         return genericKubernetesResource;
     }
 
-    public CustomResourceMicrofrontendDTO mapGenericToMicrofrontendDTO(GenericKubernetesResource resource) {
-        CustomResourceMicrofrontendDTO microfrontendDTO;
-        microfrontendDTO = mapper.convertValue(resource, CustomResourceMicrofrontendDTO.class);
-        return microfrontendDTO;
-    }
-
     public GenericKubernetesResource mapMicrofrontendDtoToGeneric(CustomResourceMicrofrontendDTO data) {
         GenericKubernetesResource genericKubernetesResource;
         genericKubernetesResource = mapper.convertValue(data, GenericKubernetesResource.class);
         return genericKubernetesResource;
-    }
-
-    public CustomResourceMicroserviceDTO mapGenericToMicroserviceDTO(GenericKubernetesResource resource) {
-        CustomResourceMicroserviceDTO microserviceDTO;
-        microserviceDTO = mapper.convertValue(resource, CustomResourceMicroserviceDTO.class);
-        return microserviceDTO;
     }
 
     public GenericKubernetesResource mapMicroserviceDtoToGeneric(CustomResourceMicroserviceDTO data) {
@@ -114,23 +67,31 @@ public abstract class CrdMapper {
         return genericKubernetesResource;
     }
 
-    public CrdResponseDTO mapToResponse(List<GenericKubernetesResource> genericKubernetesResourceList) {
-        CrdResponseDTO responseDTO = new CrdResponseDTO();
-        genericKubernetesResourceList.forEach(kubernetesResource -> {
-            switch (kubernetesResource.getKind()) {
-                case "Data" -> responseDTO.addCrdDatasItem(mapGenericToDataDTO(kubernetesResource));
-                case "Database" -> responseDTO.addCrdDatabasesItem(mapGenericToDatabaseDTO(kubernetesResource));
-                case "KeycloakClient" -> responseDTO
-                        .addCrdKeycloakClientsItem(mapGenericToKeycloakClientDTO(kubernetesResource));
-                case "Microfrontend" -> responseDTO.addCrdMicrofrontendsItem(mapGenericToMicrofrontendDTO(kubernetesResource));
-                case "Microservice" -> responseDTO.addCrdMicroservicesItem(mapGenericToMicroserviceDTO(kubernetesResource));
-                case "Permission" -> responseDTO.addCrdPermissionsItem(mapGenericToPermissionDTO(kubernetesResource));
-                case "Product" -> responseDTO.addCrdProductsItem(mapGenericToProductDTO(kubernetesResource));
-                case "Slot" -> responseDTO.addCrdSlotsItem(mapGenericToSlotDTO(kubernetesResource));
-
-            }
-        });
-        return responseDTO;
+    public GenericCrdDTO mapToGenericCrdDTO(GenericKubernetesResource genericKubernetesResource) {
+        GenericCrdDTO genericCrdDTO = new GenericCrdDTO();
+        genericCrdDTO.setKind(genericKubernetesResource.getKind());
+        genericCrdDTO.setName(genericKubernetesResource.getMetadata().getName());
+        genericCrdDTO.setCreationTimestamp(genericKubernetesResource.getMetadata().getCreationTimestamp());
+        genericCrdDTO.setResourceVersion(genericKubernetesResource.getMetadata().getResourceVersion());
+        genericCrdDTO.setVersion(genericKubernetesResource.getMetadata().getLabels().get("version"));
+        Map<String, String> status = (Map<String, String>) genericKubernetesResource.getAdditionalProperties().get("status");
+        if (status != null) {
+            genericCrdDTO.setMessage(status.get("message"));
+            genericCrdDTO.setStatus(GenericCrdDTO.StatusEnum.valueOf(status.get("status")));
+            Map<String, Integer> statusCode = (Map<String, Integer>) genericKubernetesResource.getAdditionalProperties()
+                    .get("status");
+            genericCrdDTO.setResponseCode(statusCode.get("responseCode"));
+        }
+        return genericCrdDTO;
     }
 
+    public abstract List<GenericCrdDTO> mapToGenericResourceDTOs(List<GenericKubernetesResource> genericKubernetesResourceList);
+
+    public GetCRDResponseDTO mapToGetResponseObject(GenericKubernetesResource item) {
+        GetCRDResponseDTO responseDTO = new GetCRDResponseDTO();
+        Object object;
+        object = mapper.convertValue(item, Object.class);
+        responseDTO.setCrd(object);
+        return responseDTO;
+    }
 }

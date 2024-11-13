@@ -15,7 +15,7 @@ tags:
   - name: data
 paths:
   /crd:
-    get:
+    post:
       x-onecx:
         permissions:
           crd:
@@ -23,7 +23,12 @@ paths:
       tags:
         - data
       description: get custom resources
-      operationId: getAllCustomResources
+      operationId: getCustomResourcesByCriteria
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrdSearchCriteria'
       responses:
         "200":
           description: OK
@@ -39,15 +44,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
+  /crd/edit:
     post:
       x-onecx:
         permissions:
           crd:
-            - read
+            - write
       tags:
         - data
       description: edit data
-      operationId: editData
+      operationId: editCrd
       requestBody:
         required: true
         content:
@@ -65,8 +71,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
+  /crd/{type}/{name}:
+    get:
+      x-onecx:
+        permissions:
+          crd:
+            - read
+      tags:
+        - data
+      description: get crd
+      operationId: getCrdByTypeAndName
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ContextKind'
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCRDResponse'
+        "404":
+          description: NOT FOUND
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+    put:
+      x-onecx:
+        permissions:
+          crd:
+            - write
+      tags:
+        - data
+      description: touch crd
+      operationId: touchCrdByNameAndType
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: NOT FOUND
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
 components:
   schemas:
+    GetCRDResponse:
+      type: object
+      properties:
+        crd:
+          type: object
+    CrdSearchCriteria:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContextKind'
+
+    GenericCrd:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Status'
+      properties:
+        kind:
+          type: string
+        resourceVersion:
+          type: string
+        version:
+          type: string
+        creationTimestamp:
+          type: string
+        name:
+          type: string
+
     EditResourceRequest:
       type: object
       properties:
@@ -89,38 +193,10 @@ components:
     CrdResponse:
       type: object
       properties:
-        CrdDatas:
+        customResources:
           type: array
           items:
-            $ref: '#/components/schemas/CustomResourceData'
-        CrdDatabases:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomResourceDatabase'
-        CrdKeycloakClients:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomResourceKeycloakClient'
-        CrdMicrofrontends:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomResourceMicrofrontend'
-        CrdMicroservices:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomResourceMicroservice'
-        CrdPermissions:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomResourcePermission'
-        CrdProducts:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomResourceProduct'
-        CrdSlots:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomResourceSlot'
+            $ref: '#/components/schemas/GenericCrd'
     CustomResourceData:
       type: object
       properties:

@@ -39,6 +39,8 @@ nb-configuration.xml
 # Local environment
 .env
 src/main/helm/local.yaml
+src/main/helm/Chart.lock
+src/main/helm/charts
 
 # Plugin directory
 /.quarkus/cli/plugins/

@@ -4,6 +4,8 @@ import static io.restassured.RestAssured.given;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.jboss.resteasy.reactive.RestResponse.Status.OK;
 
+import java.util.List;
+
 import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.Assertions;
@@ -12,8 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.tkit.onecx.data.orchestrator.bff.rs.controllers.CrdRestController;
 
-import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.model.CrdResponseDTO;
-import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.model.EditResourceRequestDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.model.*;
 import io.fabric8.kubernetes.api.model.apiextensions.v1.CustomResourceDefinition;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
@@ -29,6 +32,9 @@ class CrdRestControllerProductTest extends AbstractTest {
     @Inject
     KubernetesClient client;
 
+    @Inject
+    ObjectMapper objectMapper;
+
     @BeforeAll
     public void before() {
         // Creating a custom resource from yaml
@@ -40,34 +46,40 @@ class CrdRestControllerProductTest extends AbstractTest {
 
     @Test
     public void testInteractionWithAPIServer() {
+        CrdSearchCriteriaDTO criteriaDTO = new CrdSearchCriteriaDTO();
+        criteriaDTO.setName("onecx-help");
+        criteriaDTO.setType(List.of(ContextKindDTO.PRODUCT));
         var response = given()
                 .when()
                 .contentType(APPLICATION_JSON)
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
                 .header(APM_HEADER_PARAM, ADMIN)
-                .get()
+                .body(criteriaDTO)
+                .post()
                 .then()
                 .contentType(APPLICATION_JSON)
                 .statusCode(OK.getStatusCode())
                 .extract().as(CrdResponseDTO.class);
         Assertions.assertNotNull(response);
+        Assertions.assertNotNull(response.getCustomResources().get(0).getName());
     }
 
     @Test
     public void testEditResource() {
-
         var response = given()
                 .when()
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
                 .header(APM_HEADER_PARAM, ADMIN)
-                .get()
+                .pathParam("type", ContextKindDTO.PRODUCT)
+                .pathParam("name", "onecx-help")
+                .get("/{type}/{name}")
                 .then()
                 .contentType(APPLICATION_JSON)
                 .statusCode(OK.getStatusCode())
-                .extract().as(CrdResponseDTO.class);
+                .extract().as(GetCRDResponseDTO.class);
         Assertions.assertNotNull(response);
-        var editedData = response.getCrdProducts().get(0);
-        editedData.getSpec().setDisplayName("EditedAppId");
+        CustomResourceProductDTO editedData = objectMapper.convertValue(response.getCrd(), CustomResourceProductDTO.class);
+        editedData.getSpec().setBasePath("EditedBasePath");
         EditResourceRequestDTO editResourceRequestDTO = new EditResourceRequestDTO();
         editResourceRequestDTO.setCrdProduct(editedData);
 
@@ -75,18 +87,21 @@ class CrdRestControllerProductTest extends AbstractTest {
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
                 .header(APM_HEADER_PARAM, ADMIN)
                 .body(editResourceRequestDTO).contentType(APPLICATION_JSON)
-                .post().then().statusCode(OK.getStatusCode());
+                .post("/edit").then().statusCode(OK.getStatusCode());
 
         response = given()
                 .when()
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
                 .header(APM_HEADER_PARAM, ADMIN)
-                .get()
+                .pathParam("type", ContextKindDTO.PRODUCT)
+                .pathParam("name", "onecx-help")
+                .get("/{type}/{name}")
                 .then()
                 .contentType(APPLICATION_JSON)
                 .statusCode(OK.getStatusCode())
-                .extract().as(CrdResponseDTO.class);
-        Assertions.assertNotNull(response);
-
+                .extract().as(GetCRDResponseDTO.class);
+        editedData = objectMapper.convertValue(response.getCrd(), CustomResourceProductDTO.class);
+        Assertions.assertNotNull(editedData);
+        Assertions.assertEquals(editedData.getSpec().getBasePath(), "EditedBasePath");
     }
 }

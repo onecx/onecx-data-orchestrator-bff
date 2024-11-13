@@ -13,7 +13,7 @@ quarkus.http.auth.permission.health.policy=permit
 quarkus.http.auth.permission.default.paths=/*
 quarkus.http.auth.permission.default.policy=authenticated
 onecx.permissions.application-id=${quarkus.application.name}
-org.eclipse.microprofile.rest.client.propagateHeaders=apm-principal-token
+onecx.permissions.product-name=onecx-data-orchestrator
 quarkus.kubernetes-client.trust-certs=true
 %prod.quarkus.oidc-client.client-id=${quarkus.application.name}
 ----
@@ -63,6 +63,9 @@ app:
         spec:
           kcConfig:
             defaultClientScopes: [ ocx-pm:read ]
+----
+
+cx-pm:read ]
 ----
 
 sion on all DELETE requests

@@ -68,18 +68,19 @@ public abstract class CrdMapper {
     }
 
     public GenericCrdDTO mapToGenericCrdDTO(GenericKubernetesResource genericKubernetesResource) {
+        final String STATUS = "status";
         GenericCrdDTO genericCrdDTO = new GenericCrdDTO();
         genericCrdDTO.setKind(genericKubernetesResource.getKind());
         genericCrdDTO.setName(genericKubernetesResource.getMetadata().getName());
         genericCrdDTO.setCreationTimestamp(genericKubernetesResource.getMetadata().getCreationTimestamp());
         genericCrdDTO.setResourceVersion(genericKubernetesResource.getMetadata().getResourceVersion());
         genericCrdDTO.setVersion(genericKubernetesResource.getMetadata().getLabels().get("version"));
-        Map<String, String> status = (Map<String, String>) genericKubernetesResource.getAdditionalProperties().get("status");
+        Map<String, String> status = (Map<String, String>) genericKubernetesResource.getAdditionalProperties().get(STATUS);
         if (status != null) {
             genericCrdDTO.setMessage(status.get("message"));
-            genericCrdDTO.setStatus(GenericCrdDTO.StatusEnum.valueOf(status.get("status")));
+            genericCrdDTO.setStatus(GenericCrdDTO.StatusEnum.valueOf(status.get(STATUS)));
             Map<String, Integer> statusCode = (Map<String, Integer>) genericKubernetesResource.getAdditionalProperties()
-                    .get("status");
+                    .get(STATUS);
             genericCrdDTO.setResponseCode(statusCode.get("responseCode"));
         }
         return genericCrdDTO;

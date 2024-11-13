@@ -36,7 +36,7 @@ class CrdRestControllerProductTest extends AbstractTest {
     ObjectMapper objectMapper;
 
     @BeforeAll
-    public void before() {
+    void before() {
         // Creating a custom resource from yaml
         CustomResourceDefinition aCustomResourceDefinition = client.apiextensions().v1().customResourceDefinitions()
                 .load(CrdRestControllerProductTest.class.getResourceAsStream("/mocks/productDefinition.yml")).item();
@@ -45,7 +45,7 @@ class CrdRestControllerProductTest extends AbstractTest {
     }
 
     @Test
-    public void testInteractionWithAPIServer() {
+    void testInteractionWithAPIServer() {
         CrdSearchCriteriaDTO criteriaDTO = new CrdSearchCriteriaDTO();
         criteriaDTO.setName("onecx-help");
         criteriaDTO.setType(List.of(ContextKindDTO.PRODUCT));
@@ -65,7 +65,7 @@ class CrdRestControllerProductTest extends AbstractTest {
     }
 
     @Test
-    public void testEditResource() {
+    void testEditResource() {
         var response = given()
                 .when()
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
@@ -102,6 +102,6 @@ class CrdRestControllerProductTest extends AbstractTest {
                 .extract().as(GetCRDResponseDTO.class);
         editedData = objectMapper.convertValue(response.getCrd(), CustomResourceProductDTO.class);
         Assertions.assertNotNull(editedData);
-        Assertions.assertEquals(editedData.getSpec().getBasePath(), "EditedBasePath");
+        Assertions.assertEquals("EditedBasePath", editedData.getSpec().getBasePath());
     }
 }

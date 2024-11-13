@@ -36,7 +36,7 @@ class CrdRestControllerSlotTest extends AbstractTest {
     ObjectMapper objectMapper;
 
     @BeforeAll
-    public void before() {
+    void before() {
         // Creating a custom resource from yaml
         CustomResourceDefinition aCustomResourceDefinition = client.apiextensions().v1().customResourceDefinitions()
                 .load(CrdRestControllerSlotTest.class.getResourceAsStream("/mocks/slotDefinition.yml")).item();
@@ -45,7 +45,7 @@ class CrdRestControllerSlotTest extends AbstractTest {
     }
 
     @Test
-    public void testInteractionWithAPIServer() {
+    void testInteractionWithAPIServer() {
         CrdSearchCriteriaDTO criteriaDTO = new CrdSearchCriteriaDTO();
         criteriaDTO.setName("onecx-workspace-ui-onecx-avatar-image");
         criteriaDTO.setType(List.of(ContextKindDTO.SLOT));
@@ -65,7 +65,7 @@ class CrdRestControllerSlotTest extends AbstractTest {
     }
 
     @Test
-    public void testEditResource() {
+    void testEditResource() {
         var response = given()
                 .when()
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
@@ -102,6 +102,6 @@ class CrdRestControllerSlotTest extends AbstractTest {
                 .extract().as(GetCRDResponseDTO.class);
         editedData = objectMapper.convertValue(response.getCrd(), CustomResourceSlotDTO.class);
         Assertions.assertNotNull(editedData);
-        Assertions.assertEquals(editedData.getSpec().getAppId(), "EditedAppId");
+        Assertions.assertEquals("EditedAppId", editedData.getSpec().getAppId());
     }
 }

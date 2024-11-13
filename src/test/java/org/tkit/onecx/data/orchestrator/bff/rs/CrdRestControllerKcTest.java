@@ -36,7 +36,7 @@ class CrdRestControllerKcTest extends AbstractTest {
     ObjectMapper objectMapper;
 
     @BeforeAll
-    public void before() {
+    void before() {
         // Creating a custom resource from yaml
         CustomResourceDefinition aCustomResourceDefinition = client.apiextensions().v1().customResourceDefinitions()
                 .load(CrdRestControllerKcTest.class.getResourceAsStream("/mocks/keycloakClientDefinition.yml")).item();
@@ -45,7 +45,7 @@ class CrdRestControllerKcTest extends AbstractTest {
     }
 
     @Test
-    public void testInteractionWithAPIServer() {
+    void testInteractionWithAPIServer() {
         CrdSearchCriteriaDTO criteriaDTO = new CrdSearchCriteriaDTO();
         criteriaDTO.setName("onecx-help-bff");
         criteriaDTO.setType(List.of(ContextKindDTO.KEYCLOAK_CLIENT));
@@ -65,7 +65,7 @@ class CrdRestControllerKcTest extends AbstractTest {
     }
 
     @Test
-    public void testEditResource() {
+    void testEditResource() {
         var response = given()
                 .when()
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
@@ -103,6 +103,6 @@ class CrdRestControllerKcTest extends AbstractTest {
                 .extract().as(GetCRDResponseDTO.class);
         editedData = objectMapper.convertValue(response.getCrd(), CustomResourceKeycloakClientDTO.class);
         Assertions.assertNotNull(editedData);
-        Assertions.assertEquals(editedData.getSpec().getRealm(), "editedRealm");
+        Assertions.assertEquals("editedRealm", editedData.getSpec().getRealm());
     }
 }

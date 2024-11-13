@@ -24,7 +24,7 @@ import io.quarkus.test.kubernetes.client.WithKubernetesTestServer;
 class CrdRestControllerGeneralTest extends AbstractTest {
 
     @Test
-    public void edit_without_crds_test() {
+    void edit_without_crds_test() {
         EditResourceRequestDTO editResourceRequestDTO = new EditResourceRequestDTO();
 
         given()
@@ -35,7 +35,7 @@ class CrdRestControllerGeneralTest extends AbstractTest {
     }
 
     @Test
-    public void edit_without_body_test() {
+    void edit_without_body_test() {
         given()
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
                 .header(APM_HEADER_PARAM, ADMIN).when().contentType(APPLICATION_JSON)
@@ -43,7 +43,7 @@ class CrdRestControllerGeneralTest extends AbstractTest {
     }
 
     @Test
-    public void search_no_crds_existing() {
+    void search_no_crds_existing() {
         CrdSearchCriteriaDTO criteriaDTO = new CrdSearchCriteriaDTO();
         criteriaDTO.setType(List.of(ContextKindDTO.DATA));
         criteriaDTO.setName("Not_Existing");

@@ -35,7 +35,7 @@ class CrdRestControllerDatabaseTest extends AbstractTest {
     ObjectMapper objectMapper;
 
     @BeforeAll
-    public void before() {
+    void before() {
         // Creating a custom resource from yaml
         CustomResourceDefinition aCustomResourceDefinition = client.apiextensions().v1().customResourceDefinitions()
                 .load(CrdRestControllerDatabaseTest.class.getResourceAsStream("/mocks/databaseDefinition.yml")).item();
@@ -44,7 +44,7 @@ class CrdRestControllerDatabaseTest extends AbstractTest {
     }
 
     @Test
-    public void testInteractionWithAPIServer() {
+    void testInteractionWithAPIServer() {
         CrdSearchCriteriaDTO criteriaDTO = new CrdSearchCriteriaDTO();
         criteriaDTO.setName("onecx-help-svc-db");
         criteriaDTO.setType(List.of(ContextKindDTO.DATABASE));
@@ -64,7 +64,7 @@ class CrdRestControllerDatabaseTest extends AbstractTest {
     }
 
     @Test
-    public void testEditResource() {
+    void testEditResource() {
         var response = given()
                 .when()
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
@@ -101,6 +101,6 @@ class CrdRestControllerDatabaseTest extends AbstractTest {
                 .extract().as(GetCRDResponseDTO.class);
         editedData = objectMapper.convertValue(response.getCrd(), CustomResourceDatabaseDTO.class);
         Assertions.assertNotNull(editedData);
-        Assertions.assertEquals(editedData.getSpec().getHost(), "EditedHost");
+        Assertions.assertEquals("EditedHost", editedData.getSpec().getHost());
     }
 }

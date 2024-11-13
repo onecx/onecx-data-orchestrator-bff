@@ -96,7 +96,7 @@ class CrdRestControllerDataTest extends AbstractTest {
     }
 
     @Test
-    public void testEditResource() {
+    void testEditResource() {
         var response = given()
                 .when()
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
@@ -133,11 +133,11 @@ class CrdRestControllerDataTest extends AbstractTest {
                 .extract().as(GetCRDResponseDTO.class);
         editedData = objectMapper.convertValue(response.getCrd(), CustomResourceDataDTO.class);
         Assertions.assertNotNull(editedData);
-        Assertions.assertEquals(editedData.getSpec().getAppId(), "EditedAppId");
+        Assertions.assertEquals("EditedAppId", editedData.getSpec().getAppId());
     }
 
     @Test
-    public void testTouchResource() {
+    void testTouchResource() {
         given()
                 .when()
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))

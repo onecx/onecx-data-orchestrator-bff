@@ -36,7 +36,7 @@ class CrdRestControllerMicroserviceTest extends AbstractTest {
     ObjectMapper objectMapper;
 
     @BeforeAll
-    public void before() {
+    void before() {
         // Creating a custom resource from yaml
         CustomResourceDefinition aCustomResourceDefinition = client.apiextensions().v1().customResourceDefinitions()
                 .load(CrdRestControllerMicroserviceTest.class.getResourceAsStream("/mocks/microserviceDefinition.yml")).item();
@@ -45,7 +45,7 @@ class CrdRestControllerMicroserviceTest extends AbstractTest {
     }
 
     @Test
-    public void testInteractionWithAPIServer() {
+    void testInteractionWithAPIServer() {
         CrdSearchCriteriaDTO criteriaDTO = new CrdSearchCriteriaDTO();
         criteriaDTO.setName("onecx-help-ui");
         criteriaDTO.setType(List.of(ContextKindDTO.MICROSERVICE));
@@ -65,7 +65,7 @@ class CrdRestControllerMicroserviceTest extends AbstractTest {
     }
 
     @Test
-    public void testEditResource() {
+    void testEditResource() {
         var response = given()
                 .when()
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
@@ -103,6 +103,6 @@ class CrdRestControllerMicroserviceTest extends AbstractTest {
                 .extract().as(GetCRDResponseDTO.class);
         editedData = objectMapper.convertValue(response.getCrd(), CustomResourceMicroserviceDTO.class);
         Assertions.assertNotNull(editedData);
-        Assertions.assertEquals(editedData.getSpec().getAppId(), "EditedAppId");
+        Assertions.assertEquals("EditedAppId", editedData.getSpec().getAppId());
     }
 }

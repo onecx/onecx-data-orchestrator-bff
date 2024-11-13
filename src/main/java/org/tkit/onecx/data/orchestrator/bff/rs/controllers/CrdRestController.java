@@ -75,18 +75,20 @@ public class CrdRestController implements DataApiService {
             .withNamespaced(true)
             .build();
 
-    Map<String, ResourceDefinitionContext> contextMap = new HashMap<>() {
-        {
-            put("Data", DATA_CONTEXT);
-            put("Database", DATABASE_CONTEXT);
-            put("KeycloakClient", KEYCLOAKCLIENT_CONTEXT);
-            put("Microfrontend", MICROFRONTEND_CONTEXT);
-            put("Microservice", MICROSERVICE_CONTEXT);
-            put("Permission", PERMISSION_CONTEXT);
-            put("Product", PRODUCT_CONTEXT);
-            put("Slot", SLOT_CONTEXT);
-        }
-    };
+    private Map<String, ResourceDefinitionContext> contextMap = createContextMap();
+
+    private static Map<String, ResourceDefinitionContext> createContextMap() {
+        Map<String, ResourceDefinitionContext> map = new HashMap<>();
+        map.put("Data", DATA_CONTEXT);
+        map.put("Database", DATABASE_CONTEXT);
+        map.put("KeycloakClient", KEYCLOAKCLIENT_CONTEXT);
+        map.put("Microfrontend", MICROFRONTEND_CONTEXT);
+        map.put("Microservice", MICROSERVICE_CONTEXT);
+        map.put("Permission", PERMISSION_CONTEXT);
+        map.put("Product", PRODUCT_CONTEXT);
+        map.put("Slot", SLOT_CONTEXT);
+        return map;
+    }
 
     @Override
     public Response getCustomResourcesByCriteria(CrdSearchCriteriaDTO crdSearchCriteriaDTO) {

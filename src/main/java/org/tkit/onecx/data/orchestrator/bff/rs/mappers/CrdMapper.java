@@ -76,6 +76,10 @@ public abstract class CrdMapper {
         genericCrdDTO.setResourceVersion(genericKubernetesResource.getMetadata().getResourceVersion());
         genericCrdDTO.setVersion(genericKubernetesResource.getMetadata().getLabels().get("version"));
         Map<String, String> status = (Map<String, String>) genericKubernetesResource.getAdditionalProperties().get(STATUS);
+        var managedFields = genericKubernetesResource.getMetadata().getManagedFields();
+        if (managedFields != null && !managedFields.isEmpty()) {
+            genericCrdDTO.setLastModified(managedFields.get(managedFields.size() - 1).getTime());
+        }
         if (status != null) {
             genericCrdDTO.setMessage(status.get("message"));
             genericCrdDTO.setStatus(GenericCrdDTO.StatusEnum.valueOf(status.get(STATUS)));

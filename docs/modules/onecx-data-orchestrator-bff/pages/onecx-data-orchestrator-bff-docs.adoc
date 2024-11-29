@@ -57,6 +57,7 @@ app:
           crd:
             read: permission on all GET requests and POST search
             write: permission on PUT, POST, PATCH requests, where objects are saved or updated
+            touch: permission on PUT request, where a resource is touched
     keycloak:
       client:
         enabled: true
@@ -65,12 +66,7 @@ app:
             defaultClientScopes: [ ocx-pm:read ]
 ----
 
-cx-pm:read ]
-----
 
-sion on all DELETE requests
-    keycloak:
-      client:
         enabled: true
         spec:
           kcConfig:

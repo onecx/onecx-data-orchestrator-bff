@@ -10,7 +10,7 @@ import io.quarkus.test.junit.QuarkusTest;
  * This test is required to initialize standard tests from libraries
  */
 @QuarkusTest
-public class BaseFirstTest extends AbstractTest {
+class BaseFirstTest extends AbstractTest {
 
     @Test
     void testQuarkusCloud() {

@@ -1,0 +1,62 @@
+apiVersion: onecx.tkit.org/v1
+kind: Technical
+metadata:
+ annotations:
+  kubectl.kubernetes.io/last-applied-configuration: >
+   {"apiVersion":"onecx.tkit.org/v1","kind":"Technical","metadata":{"annotations":{},"labels":{"app":"onecx-workspace-ui","app.kubernetes.io/instance":"onecx-workspace-dev","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"onecx-workspace-ui","helm.sh/chart":"app-0.19.0","version":"1.2.0-rc.3"},"name":"onecx-workspace-ui-onecx-avatar-image","namespace":"dev"},"spec":{"appId":"onecx-workspace-ui","deprecated":false,"description":"User
+   Profile avatar
+   image","name":"onecx-avatar-image","productName":"onecx-workspace"}}
+ creationTimestamp: '2024-07-02T06:06:48Z'
+ generation: 1
+ labels:
+  app: onecx-workspace-ui
+  app.kubernetes.io/instance: onecx-workspace-dev
+  app.kubernetes.io/managed-by: Helm
+  app.kubernetes.io/name: onecx-workspace-ui
+  helm.sh/chart: app-0.19.0
+  version: 1.2.0-rc.3
+ managedFields:
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     'f:status':
+      .: {}
+      'f:appId': {}
+      'f:name': {}
+      'f:observedGeneration': {}
+      'f:productName': {}
+      'f:responseCode': {}
+      'f:status': {}
+    manager: fabric8-kubernetes-client
+    operation: Update
+    subresource: status
+    time: '2024-07-02T16:06:48Z'
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     'f:metadata':
+      'f:annotations':
+       .: {}
+       'f:kubectl.kubernetes.io/last-applied-configuration': {}
+      'f:labels':
+       .: {}
+       'f:app': {}
+       'f:app.kubernetes.io/instance': {}
+       'f:app.kubernetes.io/managed-by': {}
+       'f:app.kubernetes.io/name': {}
+       'f:helm.sh/chart': {}
+       'f:version': {}
+     'f:spec':
+      .: {}
+      'f:appId': {}
+      'f:deprecated': {}
+      'f:description': {}
+      'f:name': {}
+      'f:productName': {}
+    manager: argocd-controller
+    operation: Update
+    time: '2024-11-01T14:15:13Z'
+ name: onecx-workspace-ui-onecx-avatar-image
+ namespace: default
+ resourceVersion: '217963070'
+ uid: 8d8a0885-c30a-4deb-9efc-7ce322ef299b

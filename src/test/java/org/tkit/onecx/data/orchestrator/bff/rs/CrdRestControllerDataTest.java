@@ -39,6 +39,11 @@ class CrdRestControllerDataTest extends AbstractTest {
                 .load(CrdRestControllerDataTest.class.getResourceAsStream("/mocks/dataDefinition.yml")).item();
         client.apiextensions().v1().customResourceDefinitions().resource(aCustomResourceDefinition).create();
         client.resource(CrdRestControllerDataTest.class.getResourceAsStream("/mocks/dataMock.yml")).create();
+        // create non-business crd
+        aCustomResourceDefinition = client.apiextensions().v1().customResourceDefinitions()
+                .load(CrdRestControllerDataTest.class.getResourceAsStream("/mocks/technicalCrdDefinition.yml")).item();
+        client.apiextensions().v1().customResourceDefinitions().resource(aCustomResourceDefinition).create();
+        client.resource(CrdRestControllerDataTest.class.getResourceAsStream("/mocks/technicalCrdMock.yml")).create();
     }
 
     @Test
@@ -147,5 +152,18 @@ class CrdRestControllerDataTest extends AbstractTest {
                 .put("/{type}/{name}")
                 .then()
                 .statusCode(OK.getStatusCode());
+    }
+
+    @Test
+    void test_getResourceList() {
+        var data = given()
+                .when()
+                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
+                .header(APM_HEADER_PARAM, ADMIN)
+                .get()
+                .then()
+                .statusCode(OK.getStatusCode())
+                .extract().as(String[].class);
+        Assertions.assertEquals("Data", data[0]);
     }
 }

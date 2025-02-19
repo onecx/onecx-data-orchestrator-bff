@@ -39,6 +39,11 @@ class CrdRestControllerDataTest extends AbstractTest {
                 .load(CrdRestControllerDataTest.class.getResourceAsStream("/mocks/dataDefinition.yml")).item();
         client.apiextensions().v1().customResourceDefinitions().resource(aCustomResourceDefinition).create();
         client.resource(CrdRestControllerDataTest.class.getResourceAsStream("/mocks/dataMock.yml")).create();
+        // create non-business crd
+        aCustomResourceDefinition = client.apiextensions().v1().customResourceDefinitions()
+                .load(CrdRestControllerDataTest.class.getResourceAsStream("/mocks/technicalCrdDefinition.yml")).item();
+        client.apiextensions().v1().customResourceDefinitions().resource(aCustomResourceDefinition).create();
+        client.resource(CrdRestControllerDataTest.class.getResourceAsStream("/mocks/technicalCrdMock.yml")).create();
     }
 
     @Test

@@ -214,7 +214,10 @@ public class CrdRestController implements DataApiService {
         List<String> crdTypes = new ArrayList<>();
         List<CustomResourceDefinition> items = list.getItems();
         for (CustomResourceDefinition item : items) {
-            crdTypes.add(item.getSpec().getNames().getKind());
+            String kind = item.getSpec().getNames().getKind();
+            if (contextMap.containsKey(kind)) {
+                crdTypes.add(kind);
+            }
         }
         return Response.status(Response.Status.OK).entity(crdTypes).build();
     }

@@ -15,6 +15,26 @@ tags:
   - name: data
 paths:
   /crd:
+    get:
+      x-onecx:
+        permissions:
+          crd:
+            - read
+      tags:
+        - data
+      description: get list of custom resource definitions
+      operationId: getCustomResourceDefinitions
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "404":
+          description: NOT FOUND
     post:
       x-onecx:
         permissions:

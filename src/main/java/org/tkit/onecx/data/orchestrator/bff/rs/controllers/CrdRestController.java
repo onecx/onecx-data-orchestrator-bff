@@ -10,6 +10,8 @@ import jakarta.ws.rs.core.Response;
 
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tkit.onecx.data.orchestrator.bff.rs.mappers.CrdMapper;
 import org.tkit.onecx.data.orchestrator.bff.rs.mappers.ExceptionMapper;
 import org.tkit.quarkus.log.cdi.LogService;
@@ -17,6 +19,8 @@ import org.tkit.quarkus.log.cdi.LogService;
 import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.DataApiService;
 import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.model.*;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+import io.fabric8.kubernetes.api.model.apiextensions.v1.CustomResourceDefinition;
+import io.fabric8.kubernetes.api.model.apiextensions.v1.CustomResourceDefinitionList;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientException;
 import io.fabric8.kubernetes.client.dsl.base.ResourceDefinitionContext;
@@ -25,6 +29,7 @@ import io.fabric8.kubernetes.client.dsl.base.ResourceDefinitionContext;
 @Transactional(value = Transactional.TxType.NOT_SUPPORTED)
 @LogService
 public class CrdRestController implements DataApiService {
+    private static final Logger log = LoggerFactory.getLogger(CrdRestController.class);
     @Inject
     ExceptionMapper exceptionMapper;
 
@@ -201,6 +206,17 @@ public class CrdRestController implements DataApiService {
         var item = kubernetesClient.genericKubernetesResources(context)
                 .inNamespace(namespace).withName(name).get();
         return Response.status(200).entity(crdMapper.mapToGetResponseObject(item)).build();
+    }
+
+    @Override
+    public Response getCustomResourceDefinitions() {
+        CustomResourceDefinitionList list = kubernetesClient.apiextensions().v1().customResourceDefinitions().list();
+        List<String> crdTypes = new ArrayList<>();
+        List<CustomResourceDefinition> items = list.getItems();
+        for (CustomResourceDefinition item : items) {
+            crdTypes.add(item.getSpec().getNames().getKind());
+        }
+        return Response.status(Response.Status.OK).entity(crdTypes).build();
     }
 
     @ServerExceptionMapper

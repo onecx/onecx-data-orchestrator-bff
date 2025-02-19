@@ -148,4 +148,17 @@ class CrdRestControllerDataTest extends AbstractTest {
                 .then()
                 .statusCode(OK.getStatusCode());
     }
+
+    @Test
+    void test_getResourceList() {
+        var data = given()
+                .when()
+                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
+                .header(APM_HEADER_PARAM, ADMIN)
+                .get()
+                .then()
+                .statusCode(OK.getStatusCode())
+                .extract().as(String[].class);
+        Assertions.assertEquals("Data", data[0]);
+    }
 }

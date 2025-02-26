@@ -50,7 +50,7 @@ h| Version
 | https://github.com/quarkiverse/quarkus-openapi-generator/blob/2.4.7/docs/modules/ROOT/pages/includes/quarkus-openapi-generator.adoc[Link]
 | 2.4.7
 
-| quarkus-rest-client-reactive-jackson
+| quarkus-rest-client-jackson
 
 | https://quarkus.io/guides/rest-client[Link]
 | 
@@ -104,12 +104,6 @@ h| Version
 | https://github.com/quarkusio/quarkusio.github.io/blob/develop/_generated-doc/latest/config/quarkus-oidc.adoc[Link]
 | 3.15.3
 
-| quarkus-oidc-client-reactive-filter
-
-| https://quarkus.io/guides/security-openid-connect-client-reference[Link]
-| https://github.com/quarkusio/quarkusio.github.io/blob/develop/_generated-doc/latest/config/quarkus-oidc-client-reactive-filter.adoc[Link]
-| 3.15.3
-
 | tkit-quarkus-security
 
 | https://1000kit.github.io/tkit-quarkus/current/tkit-quarkus/tkit-quarkus-security.html[Link]
@@ -132,6 +126,29 @@ h| Version
 
 | https://quarkus.io/guides/container-image[Link]
 | https://github.com/quarkusio/quarkusio.github.io/blob/develop/_generated-doc/latest/config/quarkus-container-image-docker.adoc[Link]
+| 3.15.3
+
+
+| quarkus-kubernetes-client
+
+| 
+| 
+| 3.15.3
+
+| quarkus-rest-client-oidc-filter
+
+| 
+| 
+| 3.15.3
+
+| tkit-quarkus-oidc-health
+
+| 
+| 
+| 2.40.0
+
+
+|===om/quarkusio/quarkusio.github.io/blob/develop/_generated-doc/latest/config/quarkus-container-image-docker.adoc[Link]
 | 3.15.3
 
 

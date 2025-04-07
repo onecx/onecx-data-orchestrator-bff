@@ -25,3 +25,7 @@ app:
         spec:
           kcConfig:
             defaultClientScopes: [ ocx-pm:read ]
+    microservice:
+      spec:
+        description: OneCX Data Orchestrator Backend for Frontend
+        name: OneCX Data Orchestrator BFF

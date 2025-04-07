@@ -64,16 +64,13 @@ app:
         spec:
           kcConfig:
             defaultClientScopes: [ ocx-pm:read ]
+    microservice:
+      spec:
+        description: OneCX Data Orchestrator Backend for Frontend
+        name: OneCX Data Orchestrator BFF
 ----
 
-
-        enabled: true
-        spec:
-          kcConfig:
-            defaultClientScopes: [ ocx-pm:read ]
-----
-
-ecx_welcome_internal_yaml.enable-security-generation=false
+enable-security-generation=false
 %prod.quarkus.rest-client.onecx_welcome_internal.providers=io.quarkus.oidc.client.reactive.filter.OidcClientRequestReactiveFilter
 %prod.quarkus.oidc-client.client-id=${quarkus.application.name}
 ----

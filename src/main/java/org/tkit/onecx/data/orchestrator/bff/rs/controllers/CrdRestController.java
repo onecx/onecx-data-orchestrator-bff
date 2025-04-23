@@ -113,9 +113,6 @@ public class CrdRestController implements DataApiService {
 
             });
         }
-        if (genericKubernetesResourceList.isEmpty()) {
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
         CrdResponseDTO responseDTO = new CrdResponseDTO();
         responseDTO.setCustomResources(crdMapper.mapToGenericResourceDTOs(genericKubernetesResourceList));
         return Response.status(Response.Status.OK).entity(responseDTO).build();

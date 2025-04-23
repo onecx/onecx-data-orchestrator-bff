@@ -6,11 +6,13 @@ import static org.jboss.resteasy.reactive.RestResponse.Status.*;
 
 import java.util.List;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.tkit.onecx.data.orchestrator.bff.rs.controllers.CrdRestController;
 
 import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.model.ContextKindDTO;
+import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.model.CrdResponseDTO;
 import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.model.CrdSearchCriteriaDTO;
 import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.model.EditResourceRequestDTO;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
@@ -47,7 +49,7 @@ class CrdRestControllerGeneralTest extends AbstractTest {
         CrdSearchCriteriaDTO criteriaDTO = new CrdSearchCriteriaDTO();
         criteriaDTO.setType(List.of(ContextKindDTO.DATA));
         criteriaDTO.setName("Not_Existing");
-        given()
+        var output = given()
                 .when()
                 .contentType(APPLICATION_JSON)
                 .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
@@ -55,6 +57,8 @@ class CrdRestControllerGeneralTest extends AbstractTest {
                 .body(criteriaDTO)
                 .post()
                 .then()
-                .statusCode(NO_CONTENT.getStatusCode());
+                .statusCode(OK.getStatusCode())
+                .extract().as(CrdResponseDTO.class);
+        Assertions.assertThat(output.getCustomResources().isEmpty()).isTrue();
     }
 }

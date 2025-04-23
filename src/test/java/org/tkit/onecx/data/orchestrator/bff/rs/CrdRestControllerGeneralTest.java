@@ -59,6 +59,6 @@ class CrdRestControllerGeneralTest extends AbstractTest {
                 .then()
                 .statusCode(OK.getStatusCode())
                 .extract().as(CrdResponseDTO.class);
-        Assertions.assertThat(output.getCustomResources().isEmpty()).isTrue();
+        Assertions.assertThat(output.getCustomResources()).isEmpty();
     }
 }

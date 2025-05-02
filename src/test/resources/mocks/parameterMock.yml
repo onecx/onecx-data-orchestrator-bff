@@ -1,0 +1,116 @@
+apiVersion: onecx.tkit.org/v1
+kind: Parameter
+metadata:
+ annotations:
+  kubectl.kubernetes.io/last-applied-configuration: >
+   {"apiVersion":"onecx.tkit.org/v1","kind":"Parameter","metadata":{"annotations":{},"labels":{"app":"onecx-parameter-bff","app.kubernetes.io/instance":"onecx-parameter-dev","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"onecx-parameter-bff","helm.sh/chart":"app-0.39.0","version":"1.1.0"},"name":"onecx-parameter-bff-default","namespace":"dev"},"spec":{"applicationId":"onecx-parameter-bff","key":"onecx","orgId":"default","parameters":{"param1":{"description":"Boolean
+   type","displayName":"Parameter
+   1","value":"true"},"param2":{"description":"Number
+   type","displayName":"Parameter
+   2","value":"100"},"param3":{"description":"Text
+   type","displayName":"Parameter
+   3","value":"\"text\""},"param4":{"description":"Object
+   type","displayName":"Parameter
+   4","value":"{\"a\":true,\"c\":\"text\",\"custom\":123,\"d\":{\"e\":100,\"f\":false}}"}},"productName":"onecx-parameter"}}
+ creationTimestamp: '2025-04-24T11:07:25Z'
+ generation: 2
+ labels:
+  app: onecx-parameter-bff
+  app.kubernetes.io/instance: onecx-parameter-dev
+  app.kubernetes.io/managed-by: Helm
+  app.kubernetes.io/name: onecx-parameter-bff
+  helm.sh/chart: app-0.39.0
+  version: 1.1.0
+ managedFields:
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     'f:status':
+      .: {}
+      'f:applicationId': {}
+      'f:observedGeneration': {}
+      'f:productName': {}
+      'f:response-code': {}
+      'f:status': {}
+    manager: fabric8-kubernetes-client
+    operation: Update
+    subresource: status
+    time: '2025-04-29T18:32:00Z'
+  - apiVersion: onecx.tkit.org/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+     'f:metadata':
+      'f:annotations':
+       .: {}
+       'f:kubectl.kubernetes.io/last-applied-configuration': {}
+      'f:labels':
+       .: {}
+       'f:app': {}
+       'f:app.kubernetes.io/instance': {}
+       'f:app.kubernetes.io/managed-by': {}
+       'f:app.kubernetes.io/name': {}
+       'f:helm.sh/chart': {}
+       'f:version': {}
+     'f:spec':
+      .: {}
+      'f:applicationId': {}
+      'f:key': {}
+      'f:orgId': {}
+      'f:parameters':
+       .: {}
+       'f:param1':
+        .: {}
+        'f:description': {}
+        'f:displayName': {}
+        'f:value': {}
+       'f:param2':
+        .: {}
+        'f:description': {}
+        'f:displayName': {}
+        'f:value': {}
+       'f:param3':
+        .: {}
+        'f:description': {}
+        'f:displayName': {}
+        'f:value': {}
+       'f:param4':
+        .: {}
+        'f:description': {}
+        'f:displayName': {}
+        'f:value': {}
+      'f:productName': {}
+    manager: argocd-controller
+    operation: Update
+    time: '2025-04-30T10:46:14Z'
+ name: onecx-parameter-bff
+ namespace: default
+ resourceVersion: '345251493'
+ uid: f1550742-8dca-4831-80eb-040294070f45
+spec:
+ applicationId: onecx-parameter-bff
+ key: onecx
+ orgId: default
+ parameters:
+  param1:
+   description: Boolean type
+   displayName: Parameter 1
+   value: 'true'
+  param2:
+   description: Number type
+   displayName: Parameter 2
+   value: '100'
+  param3:
+   description: Text type
+   displayName: Parameter 3
+   value: '"text"'
+  param4:
+   description: Object type
+   displayName: Parameter 4
+   value: '{"a":true,"c":"text","custom":123,"d":{"e":100,"f":false}}'
+ productName: onecx-parameter
+status:
+ applicationId: onecx-parameter-bff
+ observedGeneration: 2
+ productName: onecx-parameter
+ response-code: 204
+ status: UPDATED

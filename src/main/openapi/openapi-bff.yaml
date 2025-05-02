@@ -192,6 +192,8 @@ components:
           $ref: '#/components/schemas/CustomResourceProduct'
         CrdSlot:
           $ref: '#/components/schemas/CustomResourceSlot'
+        CrdParameter:
+          $ref: '#/components/schemas/CustomResourceParameter'
     CrdResponse:
       type: object
       properties:
@@ -519,6 +521,44 @@ components:
         metadata:
           allOf:
             - $ref: '#/components/schemas/Metadata'
+
+    CustomResourceParameter:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        spec:
+          properties:
+            applicationId:
+              type: string
+            key:
+              type: string
+            orgId:
+              type: string
+            parameters:
+              additionalProperties:
+                properties:
+                  description:
+                    type: string
+                  displayName:
+                    type: string
+                  value:
+                    type: string
+                type: object
+              type: object
+            productName:
+              type: string
+            url:
+              type: string
+          type: object
+        status:
+          allOf:
+            - $ref: '#/components/schemas/Status'
+        metadata:
+          allOf:
+            - $ref: '#/components/schemas/Metadata'
     Metadata:
       type: object
       properties:
@@ -550,7 +590,7 @@ components:
       example: 2022-03-10T12:15:50-04:00
     ContextKind:
       type: string
-      enum: [ Data, Database, KeycloakClient, Microfrontend, Microservice, Permission, Product, Slot ]
+      enum: [ Data, Database, KeycloakClient, Microfrontend, Microservice, Permission, Product, Slot, Parameter ]
     ProblemDetailResponse:
       type: object
       properties:

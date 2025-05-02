@@ -30,6 +30,9 @@ rules:
     - "slots"
     - "slots/status"
     - "slots/finalizers"
+    - "parameters"
+    - "parameters/status"
+    - "parameters/finalizers"
    verbs:
     - "get"
     - "list"

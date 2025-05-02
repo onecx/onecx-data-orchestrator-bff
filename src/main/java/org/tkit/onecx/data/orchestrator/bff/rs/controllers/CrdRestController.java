@@ -74,6 +74,11 @@ public class CrdRestController implements DataApiService {
             .withPlural("slots")
             .withNamespaced(true)
             .build();
+    private static ResourceDefinitionContext PARAMETER_CONTEXT = new ResourceDefinitionContext.Builder()
+            .withGroup(GROUP)
+            .withPlural("parameters")
+            .withNamespaced(true)
+            .build();
 
     private Map<String, ResourceDefinitionContext> contextMap = createContextMap();
 
@@ -87,6 +92,7 @@ public class CrdRestController implements DataApiService {
         map.put("Permission", PERMISSION_CONTEXT);
         map.put("Product", PRODUCT_CONTEXT);
         map.put("Slot", SLOT_CONTEXT);
+        map.put("Parameter", PARAMETER_CONTEXT);
         return map;
     }
 
@@ -185,6 +191,13 @@ public class CrdRestController implements DataApiService {
             var resourceDto = requestDTO.getCrdSlot();
             var editedResource = crdMapper.mapSlotDtoToGeneric(resourceDto);
             kubernetesClient.genericKubernetesResources(SLOT_CONTEXT).inNamespace(namespace).resource(editedResource)
+                    .update();
+            return Response.status(Response.Status.OK).build();
+        }
+        if (requestDTO.getCrdParameter() != null) {
+            var resourceDto = requestDTO.getCrdParameter();
+            var editedResource = crdMapper.mapParameterDtoToGeneric(resourceDto);
+            kubernetesClient.genericKubernetesResources(PARAMETER_CONTEXT).inNamespace(namespace).resource(editedResource)
                     .update();
             return Response.status(Response.Status.OK).build();
         }

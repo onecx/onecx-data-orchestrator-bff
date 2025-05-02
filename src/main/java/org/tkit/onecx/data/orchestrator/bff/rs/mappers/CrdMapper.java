@@ -67,6 +67,12 @@ public abstract class CrdMapper {
         return genericKubernetesResource;
     }
 
+    public GenericKubernetesResource mapParameterDtoToGeneric(CustomResourceParameterDTO data) {
+        GenericKubernetesResource genericKubernetesResource;
+        genericKubernetesResource = mapper.convertValue(data, GenericKubernetesResource.class);
+        return genericKubernetesResource;
+    }
+
     public GenericCrdDTO mapToGenericCrdDTO(GenericKubernetesResource genericKubernetesResource) {
         final String STATUS = "status";
         GenericCrdDTO genericCrdDTO = new GenericCrdDTO();

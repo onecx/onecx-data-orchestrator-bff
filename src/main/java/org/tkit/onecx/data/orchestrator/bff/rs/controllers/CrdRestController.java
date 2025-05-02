@@ -74,6 +74,7 @@ public class CrdRestController implements DataApiService {
             .withPlural("slots")
             .withNamespaced(true)
             .build();
+    @SuppressWarnings("java:S3008")
     private static ResourceDefinitionContext PARAMETER_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("parameters")

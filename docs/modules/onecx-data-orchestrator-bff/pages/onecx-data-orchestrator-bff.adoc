@@ -1,0 +1,48 @@
+:summaryTableId: onecx-data-orchestrator-bff
+[.configuration-legend]
+icon:lock[title=Fixed at build time] Configuration property fixed at build time - All other configuration properties are overridable at runtime
+[.configuration-reference.searchable, cols="80,.^10,.^10"]
+|===
+
+h|[.header-title]##Configuration property##
+h|Type
+h|Default
+
+a| [[onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-enabled]] [.property-path]##link:#onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-enabled[`onecx.data.orchestrator.types."types".enabled`]##
+
+[.description]
+--
+Enable or disable a specific resource
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++ONECX_DATA_ORCHESTRATOR_TYPES__TYPES__ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++ONECX_DATA_ORCHESTRATOR_TYPES__TYPES__ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`true`
+
+a| [[onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-value]] [.property-path]##link:#onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-value[`onecx.data.orchestrator.types."types".value`]##
+
+[.description]
+--
+Kind value from custom resource definition
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++ONECX_DATA_ORCHESTRATOR_TYPES__TYPES__VALUE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++ONECX_DATA_ORCHESTRATOR_TYPES__TYPES__VALUE+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|required icon:exclamation-circle[title=Configuration property is required]
+
+|===
+
+
+:!summaryTableId:

@@ -4,7 +4,9 @@ import static io.restassured.RestAssured.given;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.jboss.resteasy.reactive.RestResponse.Status.OK;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -56,7 +58,9 @@ public class ConfigTest extends AbstractTest {
 
     @BeforeEach
     void beforeEach() {
-        Mockito.when(dataConfig.types().get("database")).thenReturn(new DataOrchestratorConfig.TypeConfig() {
+
+        Map<String, DataOrchestratorConfig.TypeConfig> typeConfigMap = new HashMap<>();
+        typeConfigMap.put("database", new DataOrchestratorConfig.TypeConfig() {
             @Override
             public boolean enabled() {
                 return false;
@@ -67,7 +71,8 @@ public class ConfigTest extends AbstractTest {
                 return "Database";
             }
         });
-        Mockito.when(dataConfig.types().get("microfrontend")).thenReturn(new DataOrchestratorConfig.TypeConfig() {
+
+        typeConfigMap.put("microfrontend", new DataOrchestratorConfig.TypeConfig() {
             @Override
             public boolean enabled() {
                 return true;
@@ -78,6 +83,9 @@ public class ConfigTest extends AbstractTest {
                 return "Microfrontend";
             }
         });
+
+        Mockito.when(dataConfig.types()).thenReturn(typeConfigMap);
+
     }
 
     @BeforeAll

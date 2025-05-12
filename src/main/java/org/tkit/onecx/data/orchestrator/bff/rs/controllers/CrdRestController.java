@@ -89,7 +89,7 @@ public class CrdRestController implements DataApiService {
     private Map<ContextKindDTO, ResourceDefinitionContext> contextMap = createContextMap();
 
     private static Map<ContextKindDTO, ResourceDefinitionContext> createContextMap() {
-        Map<ContextKindDTO, ResourceDefinitionContext> map = new HashMap<>();
+        Map<ContextKindDTO, ResourceDefinitionContext> map = new EnumMap<>(ContextKindDTO.class);
         map.put(ContextKindDTO.DATA, DATA_CONTEXT);
         map.put(ContextKindDTO.DATABASE, DATABASE_CONTEXT);
         map.put(ContextKindDTO.KEYCLOAK_CLIENT, KEYCLOAKCLIENT_CONTEXT);
@@ -217,8 +217,7 @@ public class CrdRestController implements DataApiService {
 
     @Override
     public Response getActiveCrdKinds() {
-        GetContextKindsResponseDTO responseDTO = new GetContextKindsResponseDTO();
-        responseDTO.setKinds(dataService.getActiveTypes().stream().toList());
+        var responseDTO = new GetContextKindsResponseDTO().kinds(dataService.getActiveTypes().stream().toList());
         return Response.status(Response.Status.OK).entity(responseDTO).build();
     }
 

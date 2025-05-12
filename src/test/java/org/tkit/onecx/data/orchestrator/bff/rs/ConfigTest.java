@@ -35,7 +35,7 @@ import io.smallrye.config.SmallRyeConfig;
 @QuarkusTest
 @TestHTTPEndpoint(CrdRestController.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ConfigTest extends AbstractTest {
+class ConfigTest extends AbstractTest {
 
     @Inject
     KubernetesClient client;
@@ -118,7 +118,26 @@ public class ConfigTest extends AbstractTest {
     }
 
     @Test
-    void getActiveCrdsbyConfig() {
+    void testSearchWithInactiveTypeAndWithoutNameTest() {
+        CrdSearchCriteriaDTO criteriaDTO = new CrdSearchCriteriaDTO();
+        criteriaDTO.setType(List.of(ContextKindDTO.DATABASE));
+        var response = given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakClient.getAccessToken(ADMIN))
+                .header(APM_HEADER_PARAM, ADMIN)
+                .body(criteriaDTO)
+                .post()
+                .then()
+                .contentType(APPLICATION_JSON)
+                .statusCode(OK.getStatusCode())
+                .extract().as(CrdResponseDTO.class);
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(0, response.getCustomResources().size());
+    }
+
+    @Test
+    void getActiveCrdsByConfig() {
         var response = given()
                 .when()
                 .contentType(APPLICATION_JSON)

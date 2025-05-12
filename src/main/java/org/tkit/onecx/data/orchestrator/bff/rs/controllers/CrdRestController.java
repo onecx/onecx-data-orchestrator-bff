@@ -1,5 +1,6 @@
 package org.tkit.onecx.data.orchestrator.bff.rs.controllers;
 
+import java.time.OffsetDateTime;
 import java.util.*;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -140,6 +141,7 @@ public class CrdRestController implements DataApiService {
         var item = kubernetesClient.genericKubernetesResources(contextMap.get(type))
                 .inNamespace(namespace).withName(name)
                 .get();
+        item.getMetadata().getAnnotations().put("touchedAt", OffsetDateTime.now().toString());
         kubernetesClient.genericKubernetesResources(contextMap.get(type)).inNamespace(namespace).resource(item)
                 .update();
         return Response.status(Response.Status.OK).build();

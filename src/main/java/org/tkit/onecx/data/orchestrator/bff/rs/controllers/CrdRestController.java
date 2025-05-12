@@ -12,6 +12,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 import org.tkit.onecx.data.orchestrator.bff.rs.mappers.CrdMapper;
 import org.tkit.onecx.data.orchestrator.bff.rs.mappers.ExceptionMapper;
+import org.tkit.onecx.data.orchestrator.bff.rs.services.DataService;
 import org.tkit.quarkus.log.cdi.LogService;
 
 import gen.org.tkit.onecx.data.orchestrator.bff.rs.internal.DataApiService;
@@ -33,6 +34,10 @@ public class CrdRestController implements DataApiService {
 
     @Inject
     CrdMapper crdMapper;
+
+    @Inject
+    DataService dataService;
+
     private static final String GROUP = "onecx.tkit.org";
     private static ResourceDefinitionContext DATA_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
@@ -81,19 +86,19 @@ public class CrdRestController implements DataApiService {
             .withNamespaced(true)
             .build();
 
-    private Map<String, ResourceDefinitionContext> contextMap = createContextMap();
+    private Map<ContextKindDTO, ResourceDefinitionContext> contextMap = createContextMap();
 
-    private static Map<String, ResourceDefinitionContext> createContextMap() {
-        Map<String, ResourceDefinitionContext> map = new HashMap<>();
-        map.put("Data", DATA_CONTEXT);
-        map.put("Database", DATABASE_CONTEXT);
-        map.put("KeycloakClient", KEYCLOAKCLIENT_CONTEXT);
-        map.put("Microfrontend", MICROFRONTEND_CONTEXT);
-        map.put("Microservice", MICROSERVICE_CONTEXT);
-        map.put("Permission", PERMISSION_CONTEXT);
-        map.put("Product", PRODUCT_CONTEXT);
-        map.put("Slot", SLOT_CONTEXT);
-        map.put("Parameter", PARAMETER_CONTEXT);
+    private static Map<ContextKindDTO, ResourceDefinitionContext> createContextMap() {
+        Map<ContextKindDTO, ResourceDefinitionContext> map = new HashMap<>();
+        map.put(ContextKindDTO.DATA, DATA_CONTEXT);
+        map.put(ContextKindDTO.DATABASE, DATABASE_CONTEXT);
+        map.put(ContextKindDTO.KEYCLOAK_CLIENT, KEYCLOAKCLIENT_CONTEXT);
+        map.put(ContextKindDTO.MICROFRONTEND, MICROFRONTEND_CONTEXT);
+        map.put(ContextKindDTO.MICROSERVICE, MICROSERVICE_CONTEXT);
+        map.put(ContextKindDTO.PERMISSION, PERMISSION_CONTEXT);
+        map.put(ContextKindDTO.PRODUCT, PRODUCT_CONTEXT);
+        map.put(ContextKindDTO.SLOT, SLOT_CONTEXT);
+        map.put(ContextKindDTO.PARAMETER, PARAMETER_CONTEXT);
         return map;
     }
 
@@ -101,23 +106,27 @@ public class CrdRestController implements DataApiService {
     public Response getCustomResourcesByCriteria(CrdSearchCriteriaDTO crdSearchCriteriaDTO) {
         List<GenericKubernetesResource> genericKubernetesResourceList = new ArrayList<>();
         var namespace = kubernetesClient.getNamespace();
+        var set = dataService.getActiveTypes();
+
         if (crdSearchCriteriaDTO.getName() != null && !crdSearchCriteriaDTO.getName().isEmpty()) {
             crdSearchCriteriaDTO.getType().forEach(contextKindDTO -> {
-                var context = contextMap.get(contextKindDTO.toString());
-                var item = kubernetesClient.genericKubernetesResources(context)
-                        .inNamespace(namespace).withName(crdSearchCriteriaDTO.getName()).get();
-                if (item != null) {
-                    genericKubernetesResourceList.add(item);
+                if (set.contains(contextKindDTO)) {
+                    var context = contextMap.get(contextKindDTO);
+                    var item = kubernetesClient.genericKubernetesResources(context)
+                            .inNamespace(namespace).withName(crdSearchCriteriaDTO.getName()).get();
+                    if (item != null) {
+                        genericKubernetesResourceList.add(item);
+                    }
                 }
-
             });
         } else {
             crdSearchCriteriaDTO.getType().forEach(contextKindDTO -> {
-                var context = contextMap.get(contextKindDTO.toString());
-                var items = kubernetesClient.genericKubernetesResources(context)
-                        .inNamespace(namespace).list().getItems();
-                genericKubernetesResourceList.addAll(items);
-
+                if (set.contains(contextKindDTO)) {
+                    var context = contextMap.get(contextKindDTO);
+                    var items = kubernetesClient.genericKubernetesResources(context)
+                            .inNamespace(namespace).list().getItems();
+                    genericKubernetesResourceList.addAll(items);
+                }
             });
         }
         CrdResponseDTO responseDTO = new CrdResponseDTO();
@@ -126,9 +135,10 @@ public class CrdRestController implements DataApiService {
     }
 
     @Override
-    public Response touchCrdByNameAndType(String type, String name) {
+    public Response touchCrdByNameAndType(ContextKindDTO type, String name) {
         var namespace = kubernetesClient.getNamespace();
-        var item = kubernetesClient.genericKubernetesResources(contextMap.get(type)).inNamespace(namespace).withName(name)
+        var item = kubernetesClient.genericKubernetesResources(contextMap.get(type))
+                .inNamespace(namespace).withName(name)
                 .get();
         kubernetesClient.genericKubernetesResources(contextMap.get(type)).inNamespace(namespace).resource(item)
                 .update();
@@ -206,9 +216,16 @@ public class CrdRestController implements DataApiService {
     }
 
     @Override
+    public Response getActiveCrdKinds() {
+        GetContextKindsResponseDTO responseDTO = new GetContextKindsResponseDTO();
+        responseDTO.setKinds(dataService.getActiveTypes().stream().toList());
+        return Response.status(Response.Status.OK).entity(responseDTO).build();
+    }
+
+    @Override
     public Response getCrdByTypeAndName(ContextKindDTO type, String name) {
         var namespace = kubernetesClient.getNamespace();
-        var context = contextMap.get(type.toString());
+        var context = contextMap.get(type);
         var item = kubernetesClient.genericKubernetesResources(context)
                 .inNamespace(namespace).withName(name).get();
         return Response.status(200).entity(crdMapper.mapToGetResponseObject(item)).build();

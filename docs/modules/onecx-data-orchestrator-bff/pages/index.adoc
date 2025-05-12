@@ -4,5 +4,7 @@ include::onecx-data-orchestrator-bff-attributes.adoc[opts=optional]
 
 include::docs.adoc[opts=optional]
 
+=== Configuration
+include::onecx-data-orchestrator-bff.adoc[opts=optional]
 
 include::onecx-data-orchestrator-bff-docs.adoc[opts=optional]

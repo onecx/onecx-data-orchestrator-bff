@@ -121,7 +121,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            $ref: '#/components/schemas/ContextKind'
         - name: name
           in: path
           required: true
@@ -138,6 +138,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
+  /crd/kinds:
+    get:
+      x-onecx:
+        permissions:
+          crd:
+            - read
+      tags:
+        - data
+      description: get crd
+      operationId: getActiveCrdKinds
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetContextKindsResponse'
 components:
   schemas:
     GetCRDResponse:
@@ -584,6 +601,13 @@ components:
               - UNDEFINED
               - UPDATED
             type: string
+    GetContextKindsResponse:
+      type: object
+      properties:
+        kinds:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContextKind'
     OffsetDateTime:
       format: date-time
       type: string
@@ -627,6 +651,3 @@ components:
       required: true
       schema:
         type: string
-
-
-

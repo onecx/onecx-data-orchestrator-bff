@@ -40,6 +40,7 @@ public class CrdRestController implements DataApiService {
     DataService dataService;
 
     private static final String GROUP = "onecx.tkit.org";
+    private static final String TOUCH_ANNOTATION = "org.tkit.onecx.touchedAt";
     private static ResourceDefinitionContext DATA_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("datas")
@@ -141,7 +142,7 @@ public class CrdRestController implements DataApiService {
         var item = kubernetesClient.genericKubernetesResources(contextMap.get(type))
                 .inNamespace(namespace).withName(name)
                 .get();
-        item.getMetadata().getAnnotations().put("touchedAt", OffsetDateTime.now().toString());
+        item.getMetadata().getAnnotations().put(TOUCH_ANNOTATION, OffsetDateTime.now().toString());
         kubernetesClient.genericKubernetesResources(contextMap.get(type)).inNamespace(namespace).resource(item)
                 .update();
         return Response.status(Response.Status.OK).build();

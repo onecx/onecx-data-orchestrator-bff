@@ -1,4 +1,3 @@
-:summaryTableId: onecx-data-orchestrator-bff
 [.configuration-legend]
 icon:lock[title=Fixed at build time] Configuration property fixed at build time - All other configuration properties are overridable at runtime
 [.configuration-reference.searchable, cols="80,.^10,.^10"]
@@ -9,6 +8,10 @@ h|Type
 h|Default
 
 a| [[onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-enabled]] [.property-path]##link:#onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-enabled[`onecx.data.orchestrator.types."types".enabled`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++onecx.data.orchestrator.types."types".enabled+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -26,6 +29,10 @@ endif::add-copy-button-to-env-var[]
 |`true`
 
 a| [[onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-value]] [.property-path]##link:#onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-value[`onecx.data.orchestrator.types."types".value`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++onecx.data.orchestrator.types."types".value+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -44,5 +51,3 @@ endif::add-copy-button-to-env-var[]
 
 |===
 
-
-:!summaryTableId:

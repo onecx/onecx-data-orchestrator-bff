@@ -15,7 +15,7 @@ quarkus.http.auth.permission.default.policy=authenticated
 onecx.permissions.application-id=${quarkus.application.name}
 onecx.permissions.product-name=onecx-data-orchestrator
 quarkus.kubernetes-client.trust-certs=true
-%prod.quarkus.oidc-client.client-id=${quarkus.application.name}
+%prod.quarkus.oidc-client.client-id=${ONECX_OIDC_CLIENT_CLIENT_ID:${quarkus.application.name}}
 onecx.data.orchestrator.types.data.enabled=true
 onecx.data.orchestrator.types.data.value=Data
 onecx.data.orchestrator.types.database.enabled=true
@@ -59,6 +59,8 @@ app:
   serviceAccount:
     enabled: true
   name: bff
+  template:
+    oidc_client_id: "ONECX_OIDC_CLIENT_CLIENT_ID"
   image:
     repository: "onecx/onecx-data-orchestrator-bff"
   envCustom:
@@ -88,10 +90,7 @@ app:
         name: OneCX Data Orchestrator BFF
 ----
 
-ocx-pm:read, ocx-an:read ]
-----
-
-.rest-client.onecx_welcome_internal.providers=io.quarkus.oidc.client.reactive.filter.OidcClientRequestReactiveFilter
+c.client.reactive.filter.OidcClientRequestReactiveFilter
 %prod.quarkus.rest-client.onecx_announcement_v1.providers=io.quarkus.oidc.client.reactive.filter.OidcClientRequestReactiveFilter
 %prod.quarkus.oidc-client.client-id=${quarkus.application.name}
 ----

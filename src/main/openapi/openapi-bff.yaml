@@ -2,17 +2,13 @@
 openapi: 3.0.3
 info:
   title: onecx-data-orchestrator-bff
-  description: OneCX Data Orchestrator BFF
+  description: Backend-For-Frontend (BFF) service for Kubernetes. This API provides endpoints to custom resources (CRD) of Kubernetes
   version: 1.0.0
-  contact:
-    email: "tkit_dev@1000kit.org"
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: "http://onecx-data-orchestrator-bff:8080"
 tags:
   - name: data
+    description: Managing Custom Resources of Kubernetes
 paths:
   /crd:
     post:
@@ -22,7 +18,7 @@ paths:
             - read
       tags:
         - data
-      description: get custom resources
+      description: Search for custom resources by criteria
       operationId: getCustomResourcesByCriteria
       requestBody:
         content:
@@ -31,15 +27,15 @@ paths:
               $ref: '#/components/schemas/CrdSearchCriteria'
       responses:
         "200":
-          description: OK
+          description: Custom resource search results retrieved successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CrdResponse'
         "404":
-          description: NOT FOUND
+          description: Not found
         "400":
-          description: BAD REQUEST
+          description: Bad request
           content:
             application/json:
               schema:
@@ -52,7 +48,7 @@ paths:
             - write
       tags:
         - data
-      description: edit data
+      description: Update data of a specific custom resource
       operationId: editCrd
       requestBody:
         required: true
@@ -62,11 +58,11 @@ paths:
               $ref: '#/components/schemas/EditResourceRequest'
       responses:
         "200":
-          description: OK
+          description: Custom resource updated successfully
         "404":
-          description: NOT FOUND
+          description: Custom resource not found
         "400":
-          description: BAD REQUEST
+          description: Bad request
           content:
             application/json:
               schema:
@@ -79,7 +75,7 @@ paths:
             - read
       tags:
         - data
-      description: get crd
+      description: Get a custom resource by its type and name
       operationId: getCrdByTypeAndName
       parameters:
         - name: type
@@ -94,15 +90,15 @@ paths:
             type: string
       responses:
         "200":
-          description: OK
+          description: Custom resource retrieved successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetCRDResponse'
         "404":
-          description: NOT FOUND
+          description: Custom resource not found
         "400":
-          description: BAD REQUEST
+          description: Bad request
           content:
             application/json:
               schema:
@@ -114,7 +110,7 @@ paths:
             - touch
       tags:
         - data
-      description: touch crd
+      description: Touch a custom resource by its type and name to trigger a re-deployment
       operationId: touchCrdByNameAndType
       parameters:
         - name: type
@@ -129,11 +125,11 @@ paths:
             type: string
       responses:
         "200":
-          description: OK
+          description: Custom resource touched successfully
         "404":
-          description: NOT FOUND
+          description: Custom resource not found
         "400":
-          description: BAD REQUEST
+          description: Bad request
           content:
             application/json:
               schema:
@@ -146,11 +142,11 @@ paths:
             - read
       tags:
         - data
-      description: get crd
+      description: Get a list of all custom resource types
       operationId: getActiveCrdKinds
       responses:
         "200":
-          description: OK
+          description: Custom resource types retrieved successfully
           content:
             application/json:
               schema:

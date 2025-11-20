@@ -88,7 +88,7 @@ public class CrdRestController implements DataApiService {
             .withNamespaced(true)
             .build();
 
-    private final Map<ContextKindDTO, ResourceDefinitionContext> CONTEXT_MAP = createContextMap();
+    private final Map<ContextKindDTO, ResourceDefinitionContext> contextMap = createContextMap();
 
     private static Map<ContextKindDTO, ResourceDefinitionContext> createContextMap() {
         Map<ContextKindDTO, ResourceDefinitionContext> map = new EnumMap<>(ContextKindDTO.class);
@@ -113,7 +113,7 @@ public class CrdRestController implements DataApiService {
         if (crdSearchCriteriaDTO.getName() != null && !crdSearchCriteriaDTO.getName().isEmpty()) {
             crdSearchCriteriaDTO.getType().forEach(contextKindDTO -> {
                 if (set.contains(contextKindDTO)) {
-                    var context = CONTEXT_MAP.get(contextKindDTO);
+                    var context = contextMap.get(contextKindDTO);
                     var item = kubernetesClient.genericKubernetesResources(context)
                             .inNamespace(namespace).withName(crdSearchCriteriaDTO.getName()).get();
                     if (item != null) {
@@ -124,7 +124,7 @@ public class CrdRestController implements DataApiService {
         } else {
             crdSearchCriteriaDTO.getType().forEach(contextKindDTO -> {
                 if (set.contains(contextKindDTO)) {
-                    var context = CONTEXT_MAP.get(contextKindDTO);
+                    var context = contextMap.get(contextKindDTO);
                     var items = kubernetesClient.genericKubernetesResources(context)
                             .inNamespace(namespace).list().getItems();
                     genericKubernetesResourceList.addAll(items);
@@ -139,11 +139,11 @@ public class CrdRestController implements DataApiService {
     @Override
     public Response touchCrdByNameAndType(ContextKindDTO type, String name) {
         var namespace = kubernetesClient.getNamespace();
-        var item = kubernetesClient.genericKubernetesResources(CONTEXT_MAP.get(type))
+        var item = kubernetesClient.genericKubernetesResources(contextMap.get(type))
                 .inNamespace(namespace).withName(name)
                 .get();
         item.getMetadata().getAnnotations().put(TOUCH_ANNOTATION, OffsetDateTime.now().toString());
-        kubernetesClient.genericKubernetesResources(CONTEXT_MAP.get(type)).inNamespace(namespace).resource(item)
+        kubernetesClient.genericKubernetesResources(contextMap.get(type)).inNamespace(namespace).resource(item)
                 .update();
         return Response.status(Response.Status.OK).build();
     }
@@ -227,7 +227,7 @@ public class CrdRestController implements DataApiService {
     @Override
     public Response getCrdByTypeAndName(ContextKindDTO type, String name) {
         var namespace = kubernetesClient.getNamespace();
-        var context = CONTEXT_MAP.get(type);
+        var context = contextMap.get(type);
         var item = kubernetesClient.genericKubernetesResources(context)
                 .inNamespace(namespace).withName(name).get();
         return Response.status(200).entity(crdMapper.mapToGetResponseObject(item)).build();

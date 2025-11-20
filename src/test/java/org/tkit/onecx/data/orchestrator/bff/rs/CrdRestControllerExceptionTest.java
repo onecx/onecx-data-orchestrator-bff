@@ -25,6 +25,8 @@ class CrdRestControllerExceptionTest extends AbstractTest {
         status.setStatus("error");
         status.setCode(400);
         status.setMessage("some error");
-        restController.kubernetesException(new KubernetesClientException(status));
+        var response = restController.kubernetesException(new KubernetesClientException(status));
+        Assertions.assertEquals(400, response.getStatus(), "expected HTTP 400 status");
+
     }
 }

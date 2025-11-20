@@ -41,54 +41,54 @@ public class CrdRestController implements DataApiService {
 
     private static final String GROUP = "onecx.tkit.org";
     private static final String TOUCH_ANNOTATION = "org.tkit.onecx.touchedAt";
-    private static ResourceDefinitionContext DATA_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext DATA_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("datas")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext DATABASE_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext DATABASE_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("databases")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext KEYCLOAKCLIENT_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext KEYCLOAKCLIENT_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("keycloakclients")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext MICROFRONTEND_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext MICROFRONTEND_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("microfrontends")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext MICROSERVICE_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext MICROSERVICE_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("microservices")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext PERMISSION_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext PERMISSION_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("permissions")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext PRODUCT_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext PRODUCT_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("products")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext SLOT_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext SLOT_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("slots")
             .withNamespaced(true)
             .build();
     @SuppressWarnings("java:S3008")
-    private static ResourceDefinitionContext PARAMETER_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext PARAMETER_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("parameters")
             .withNamespaced(true)
             .build();
 
-    private Map<ContextKindDTO, ResourceDefinitionContext> contextMap = createContextMap();
+    private final Map<ContextKindDTO, ResourceDefinitionContext> CONTEXT_MAP = createContextMap();
 
     private static Map<ContextKindDTO, ResourceDefinitionContext> createContextMap() {
         Map<ContextKindDTO, ResourceDefinitionContext> map = new EnumMap<>(ContextKindDTO.class);
@@ -113,7 +113,7 @@ public class CrdRestController implements DataApiService {
         if (crdSearchCriteriaDTO.getName() != null && !crdSearchCriteriaDTO.getName().isEmpty()) {
             crdSearchCriteriaDTO.getType().forEach(contextKindDTO -> {
                 if (set.contains(contextKindDTO)) {
-                    var context = contextMap.get(contextKindDTO);
+                    var context = CONTEXT_MAP.get(contextKindDTO);
                     var item = kubernetesClient.genericKubernetesResources(context)
                             .inNamespace(namespace).withName(crdSearchCriteriaDTO.getName()).get();
                     if (item != null) {
@@ -124,7 +124,7 @@ public class CrdRestController implements DataApiService {
         } else {
             crdSearchCriteriaDTO.getType().forEach(contextKindDTO -> {
                 if (set.contains(contextKindDTO)) {
-                    var context = contextMap.get(contextKindDTO);
+                    var context = CONTEXT_MAP.get(contextKindDTO);
                     var items = kubernetesClient.genericKubernetesResources(context)
                             .inNamespace(namespace).list().getItems();
                     genericKubernetesResourceList.addAll(items);
@@ -139,11 +139,11 @@ public class CrdRestController implements DataApiService {
     @Override
     public Response touchCrdByNameAndType(ContextKindDTO type, String name) {
         var namespace = kubernetesClient.getNamespace();
-        var item = kubernetesClient.genericKubernetesResources(contextMap.get(type))
+        var item = kubernetesClient.genericKubernetesResources(CONTEXT_MAP.get(type))
                 .inNamespace(namespace).withName(name)
                 .get();
         item.getMetadata().getAnnotations().put(TOUCH_ANNOTATION, OffsetDateTime.now().toString());
-        kubernetesClient.genericKubernetesResources(contextMap.get(type)).inNamespace(namespace).resource(item)
+        kubernetesClient.genericKubernetesResources(CONTEXT_MAP.get(type)).inNamespace(namespace).resource(item)
                 .update();
         return Response.status(Response.Status.OK).build();
     }
@@ -227,7 +227,7 @@ public class CrdRestController implements DataApiService {
     @Override
     public Response getCrdByTypeAndName(ContextKindDTO type, String name) {
         var namespace = kubernetesClient.getNamespace();
-        var context = contextMap.get(type);
+        var context = CONTEXT_MAP.get(type);
         var item = kubernetesClient.genericKubernetesResources(context)
                 .inNamespace(namespace).withName(name).get();
         return Response.status(200).entity(crdMapper.mapToGetResponseObject(item)).build();

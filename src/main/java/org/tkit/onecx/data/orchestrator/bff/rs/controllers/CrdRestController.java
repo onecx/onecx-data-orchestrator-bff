@@ -41,54 +41,54 @@ public class CrdRestController implements DataApiService {
 
     private static final String GROUP = "onecx.tkit.org";
     private static final String TOUCH_ANNOTATION = "org.tkit.onecx.touchedAt";
-    private static ResourceDefinitionContext DATA_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext DATA_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("datas")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext DATABASE_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext DATABASE_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("databases")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext KEYCLOAKCLIENT_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext KEYCLOAKCLIENT_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("keycloakclients")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext MICROFRONTEND_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext MICROFRONTEND_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("microfrontends")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext MICROSERVICE_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext MICROSERVICE_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("microservices")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext PERMISSION_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext PERMISSION_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("permissions")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext PRODUCT_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext PRODUCT_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("products")
             .withNamespaced(true)
             .build();
-    private static ResourceDefinitionContext SLOT_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext SLOT_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("slots")
             .withNamespaced(true)
             .build();
     @SuppressWarnings("java:S3008")
-    private static ResourceDefinitionContext PARAMETER_CONTEXT = new ResourceDefinitionContext.Builder()
+    private static final ResourceDefinitionContext PARAMETER_CONTEXT = new ResourceDefinitionContext.Builder()
             .withGroup(GROUP)
             .withPlural("parameters")
             .withNamespaced(true)
             .build();
 
-    private Map<ContextKindDTO, ResourceDefinitionContext> contextMap = createContextMap();
+    private final Map<ContextKindDTO, ResourceDefinitionContext> contextMap = createContextMap();
 
     private static Map<ContextKindDTO, ResourceDefinitionContext> createContextMap() {
         Map<ContextKindDTO, ResourceDefinitionContext> map = new EnumMap<>(ContextKindDTO.class);

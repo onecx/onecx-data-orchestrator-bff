@@ -29,8 +29,10 @@ public interface ExceptionMapper {
     }
 
     default RestResponse<ProblemDetailResponseDTO> kubernetesClientException(KubernetesClientException ex) {
-        if (ex.getStatus().getCode() == 500) {
-            return RestResponse.status(400);
+        if (ex.getStatus().getCode() == Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()) {
+            return RestResponse.status(Response.Status.BAD_REQUEST);
+        } else if (ex.getStatus().getCode() == Response.Status.NOT_FOUND.getStatusCode()) {
+            return RestResponse.status(Response.Status.NOT_FOUND);
         } else {
             var dto = exception(ex.getStatus().getCode().toString(), ex.getMessage());
             return RestResponse.status(Response.Status.BAD_REQUEST, dto);

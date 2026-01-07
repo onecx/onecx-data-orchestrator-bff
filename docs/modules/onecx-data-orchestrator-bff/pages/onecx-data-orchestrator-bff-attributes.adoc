@@ -2,4 +2,4 @@
 :docker-registry: https://github.com/onecx/onecx-data-orchestrator-bff/pkgs/container/onecx-data-orchestrator-bff
 :helm-registry: https://github.com/onecx/onecx-data-orchestrator-bff/pkgs/container/charts%2Fonecx-data-orchestrator-bff
 :properties-file: src/main/resources/application.properties
-:helm-file: src/main/helm/values.yamls.yaml
+:helm-file: src/main/helm/values.yaml

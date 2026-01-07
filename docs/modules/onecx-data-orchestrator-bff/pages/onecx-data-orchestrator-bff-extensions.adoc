@@ -142,41 +142,4 @@ h| Version
 | 3.27.1
 
 
-|===r
-
-| 
-| 
-| 3.20.2.1
-
-
-|===
-
-| 
-| 
-| 2.40.0
-
-
-|===om/quarkusio/quarkusio.github.io/blob/develop/_generated-doc/latest/config/quarkus-container-image-docker.adoc[Link]
-| 3.15.3
-
-
-| quarkus-kubernetes-client
-
-| 
-| 
-| 3.15.3
-
-
-|===ttps://quarkus.io/guides/container-image[Link]
-| https://github.com/quarkusio/quarkusio.github.io/blob/develop/_generated-doc/latest/config/quarkus-container-image-docker.adoc[Link]
-| 3.15.1
-
-
-| quarkus-kubernetes-client
-
-| 
-| 
-| 3.15.1
-
-
 |===

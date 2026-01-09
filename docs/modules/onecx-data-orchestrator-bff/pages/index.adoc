@@ -1,10 +1,9 @@
 include::onecx-data-orchestrator-bff-attributes.adoc[opts=optional]
 
-== onecx-data-orchestrator-bff
+= OneCX Data Orchestrator Backend For Frontend
 
-include::docs.adoc[opts=optional]
 
-=== Configuration
+== Configuration
 include::onecx-data-orchestrator-bff.adoc[opts=optional]
 
 include::onecx-data-orchestrator-bff-docs.adoc[opts=optional]

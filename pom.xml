@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>onecx-data-orchestrator-bff</artifactId>
+    <name>OneCX Data Orchestrator Backend For Frontend</name>
     <version>999-SNAPSHOT</version>
 
     <dependencies>

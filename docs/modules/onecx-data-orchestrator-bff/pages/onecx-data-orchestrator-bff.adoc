@@ -7,7 +7,7 @@ h|[.header-title]##Configuration property##
 h|Type
 h|Default
 
-a| [[onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-enabled]] [.property-path]##link:#onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-enabled[`onecx.data.orchestrator.types."types".enabled`]##
+a| [[onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-enabled]] [.property-path]##link:#onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-enabled[`+++onecx.data.orchestrator.types."types".enabled+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++onecx.data.orchestrator.types."types".enabled+++[]
 endif::add-copy-button-to-config-props[]
@@ -28,7 +28,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++true+++`
 
-a| [[onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-value]] [.property-path]##link:#onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-value[`onecx.data.orchestrator.types."types".value`]##
+a| [[onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-value]] [.property-path]##link:#onecx-data-orchestrator-bff_onecx-data-orchestrator-types-types-value[`+++onecx.data.orchestrator.types."types".value+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++onecx.data.orchestrator.types."types".value+++[]
 endif::add-copy-button-to-config-props[]
